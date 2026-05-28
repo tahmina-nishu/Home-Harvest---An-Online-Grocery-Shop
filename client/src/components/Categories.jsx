@@ -10,7 +10,9 @@ const Categories = () => {
     const [startIndex, setStartIndex] = useState(0)
 
     // kotogulo category eksathe show hobe
-    const visibleCards = 7
+    const visibleCards =
+    window.innerWidth >= 1024 ? 7 :
+    window.innerWidth >= 768 ? 5 : 3
 
     // next slide
     const nextSlide = () => {
@@ -35,20 +37,24 @@ const Categories = () => {
             </p>
 
             {/* left arrow */}
-            <button
-                onClick={prevSlide}
-                className='absolute left-0 top-1/2 -translate-y-1/2 z-10 text-3xl text-primary bg-white rounded-full'
-            >
-                <FaCircleArrowLeft />
-            </button>
+            {startIndex > 0 && (
+                <button
+                    onClick={prevSlide}
+                    className='absolute left-0 top-1/2 -translate-y-1/2 z-10 text-3xl text-primary bg-white rounded-full'
+                >
+                    <FaCircleArrowLeft />
+                </button>
+            )}
 
             {/* right arrow */}
-            <button
-                onClick={nextSlide}
-                className='absolute right-0 top-1/2 -translate-y-1/2 z-10 text-3xl text-primary bg-white rounded-full'
-            >
-                <FaCircleArrowRight />
-            </button>
+            {startIndex + visibleCards < categories.length && (
+                <button
+                    onClick={nextSlide}
+                    className='absolute right-0 top-1/2 -translate-y-1/2 z-10 text-3xl text-primary bg-white rounded-full'
+                >
+                    <FaCircleArrowRight />
+                </button>
+            )}
 
             {/* slider container */}
             <div className='overflow-hidden'>
@@ -65,7 +71,7 @@ const Categories = () => {
 
                         <div
                             key={index}
-                            className='group  cursor-pointer py-8 px-4 rounded-full flex flex-col justify-center items-center text-center min-w-38'
+                            className='group  cursor-pointer py-8 px-4 rounded-2xl flex flex-col justify-center items-center text-center min-w-38'
                             style={{ backgroundColor: category.bgColor }}
                             onClick={() => {
                                 navigate(`/products/${category.path.toLowerCase()}`);

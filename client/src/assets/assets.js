@@ -22,8 +22,7 @@ import frozen_ready_food_image from "./category-images/frozen_ready_food_image.j
 export const assets = {
     logo,
     profile,
-    banner,
-    fruit_image
+    banner
 }
 
 
