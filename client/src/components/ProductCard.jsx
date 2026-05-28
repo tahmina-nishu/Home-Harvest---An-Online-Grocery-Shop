@@ -32,21 +32,22 @@ const ProductCard = ({product}) => {
                     <p className="md:text-xl text-base font-medium text-primary">
                         Tk.{product.offerPrice} {" "} <span className="text-gray-500/60 md:text-sm text-xs line-through">Tk.{product.price}</span>
                     </p>
-                    <div className="text-[#F4C542]">
+                    <div onClick={(e) => {e.stopPropagation(); }} className="text-[#F4C542]">
+
                         {!cartItems[product._id] ? (
-                            <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary md:w-48 w-50 h-8.5 rounded text-primary font-medium" onClick={() => setCount(1)} >
+                            <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary md:w-48 w-50 h-8.5 rounded text-primary font-medium cursor-pointer" onClick={() => addToCart(product._id)} >
                                 <svg width="22" height="22" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M.583.583h2.333l1.564 7.81a1.17 1.17 0 0 0 1.166.94h5.67a1.17 1.17 0 0 0 1.167-.94l.933-4.893H3.5m2.333 8.75a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0m6.417 0a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0" stroke="#2d753c" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                                 Add to cart
                             </button>
                         ) : (
-                            <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-8.5 bg-indigo-500/25 rounded select-none">
-                                <button onClick={() => setCount((prev) => Math.max(prev - 1, 0))} className="cursor-pointer text-md px-2 h-full" >
+                            <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-8.5 bg-primary/25 text-primary rounded select-none">
+                                <button onClick={() => {removeFromCart(product._id)} } className="cursor-pointer text-md px-2 h-full" >
                                     -
                                 </button>
                                 <span className="w-5 text-center">{cartItems[product._id]}</span>
-                                <button onClick={() => setCount((prev) => prev + 1)} className="cursor-pointer text-md px-2 h-full" >
+                                <button onClick={() => addToCart(product._id)} className="cursor-pointer text-md px-2 h-full" >
                                     +
                                 </button>
                             </div>

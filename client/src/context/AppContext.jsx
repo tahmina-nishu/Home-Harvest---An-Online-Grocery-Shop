@@ -8,14 +8,14 @@ export const AppContext = createContext();
 
 export const AppContextProvider = ({children})=>{
 
-    const currency = import.meta.VITE_CURRENCY;
+    const currency = import.meta.env.VITE_CURRENCY;;
 
     const navigate = useNavigate();
     const [user, setUser] = useState(null)
     const [isSeller, setIsSeller] = useState(false)
     const [showUserLogin, setShowUserLogin] = useState(false)
     const [products, setProducts] = useState([])
-    const [cartItems, setCProducts] = useState({})
+    const [cartItems, setCartItems] = useState({})
 
     // function for fetch products 
     const fetchProducts = async ()=>{
@@ -27,7 +27,7 @@ export const AppContextProvider = ({children})=>{
     },[])
 
     // function for add product in cart
-    const addToCart = ()=>{
+    const addToCart = (itemId)=>{
         let cartData = structuredClone(cartItems);
 
         if(cartData[itemId]) {

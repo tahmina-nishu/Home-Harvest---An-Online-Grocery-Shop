@@ -5,7 +5,7 @@ import BestSeller from '../components/BestSeller'
 
 const Home = () => {
     return (
-        <div className='mt-9'>
+        <div className='mt-29'>
             <MainBanner></MainBanner>
             <Categories></Categories>
             <BestSeller></BestSeller>
