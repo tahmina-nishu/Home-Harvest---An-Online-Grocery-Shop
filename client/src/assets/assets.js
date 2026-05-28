@@ -2,6 +2,15 @@ import logo from "./Logo.png";
 import profile from "./profile.png"
 import banner from "./banner1.jpg"
 
+export const assets = {
+    logo,
+    profile,
+    banner
+}
+
+
+// import category images 
+
 import fruit_image from "./fruit_image.jpg"
 import vegetable_image from "./category-images/vegetable_image.jpg"
 import meat_image from "./category-images/meat_image.jpg"
@@ -19,12 +28,8 @@ import baby_care_image from "./category-images/baby_care_image.jpg"
 import stationery_office_image from "./category-images/stationery_office_image.jpg"
 import frozen_ready_food_image from "./category-images/frozen_ready_food_image.jpg"
 
-export const assets = {
-    logo,
-    profile,
-    banner
-}
 
+// category objects
 
 export const categories = [
 {
@@ -123,4 +128,37 @@ export const categories = [
     image: stationery_office_image,
     bgColor: "#F4FAED"
 }
+]
+
+
+// import dummy product image
+
+// vegetables
+import potato_1 from "./product_images/vegetables/potato_1.jpg"
+import potato_2 from "./product_images/vegetables/potato_2.jpg"
+import potato_3 from "./product_images/vegetables/potato_3.jpg"
+import potato_4 from "./product_images/vegetables/potato_4.jpg"
+
+
+// dummy product objects
+
+export const dummyProducts = [
+    // vegetables
+    {
+        _id: "gd46g23h",
+        name: "Potato",
+        category: "Vegetables",
+        price: 35,
+        offerPrice: 30,
+        image: [potato_1, potato_2, potato_3, potato_4],
+        description: [
+            "Fresh and organic",
+            "Rich in carbohydrates",
+            "Ideal for curries and fries"
+        ],
+        createdAt: "2026-05-25T07:17:46.018Z",
+        updatedAt: "2026-05-25T07:18:13.103Z",
+        inStock: true,
+        rating: 4.5,
+    },
 ]
