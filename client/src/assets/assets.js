@@ -41,6 +41,89 @@ export const features = [
 ]
 
 
+// import social media icon
+
+import {
+    FaFacebookF,
+    FaInstagram,
+    FaXTwitter,
+    FaYoutube
+} from "react-icons/fa6";
+
+
+// footerlink object
+
+export const footerLinks = [
+    {
+        title: "Quick Links",
+        links: [
+            {
+                text: "Home", 
+                url: "#"
+            },
+            {
+                text: "Best Sellers", 
+                url: "#"
+            },
+            {
+                text: "Offers & Deals", 
+                url: "#"
+            },
+            {
+                text: "Contact Us", 
+                url: "#"
+            },
+            {
+                text: "FAQs", 
+                url: "#"
+            },
+        ]
+    },
+    {
+        title: "Need Help?",
+        links: [
+            {
+                text: "Delivery Information", 
+                url: "#"
+            },
+            {
+                text: "Return & Refund Policy", 
+                url: "#"
+            },
+            {
+                text: "Payment Methods", 
+                url: "#"
+            },
+            {
+                text: "Track your Order", 
+                url: "#"
+            },
+        ]
+    },
+    {
+        title: "Follow Us on",
+        links: [
+            {
+                icon: FaFacebookF,
+                url: "#"
+            },
+            {
+                icon: FaInstagram,
+                url: "#"
+            },
+            {
+                icon: FaXTwitter,
+                url: "#"
+            },
+            {
+                icon: FaYoutube,
+                url: "#"
+            },
+        ]
+    },
+]
+
+
 // import category images 
 
 import fruit_image from "./fruit_image.jpg"
