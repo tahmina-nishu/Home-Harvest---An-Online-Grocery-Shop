@@ -1,12 +1,44 @@
 import logo from "./Logo.png";
 import profile from "./profile.png"
 import banner from "./banner1.jpg"
+import bottomBanner from "./bottom_banner.png"
 
 export const assets = {
     logo,
     profile,
-    banner
+    banner,
+    bottomBanner
 }
+
+
+// import feature icons
+
+import {
+    FaTruckFast,
+    FaLeaf,
+    FaTags
+} from "react-icons/fa6";
+
+
+// features object
+
+export const features = [
+    {
+        title: "Fastest Delivery",
+        description: "Groceries delivered in under 30 minutes",
+        icon: FaTruckFast,
+    },
+    {
+        title: "Freshness Guaranteed",
+        description: "Fresh produce straight from the source",
+        icon: FaLeaf,
+    },
+    {
+        title: "Affordable Prices",
+        description: "Quality groceries at unbeatable prices",
+        icon: FaTags,
+    },
+]
 
 
 // import category images 
