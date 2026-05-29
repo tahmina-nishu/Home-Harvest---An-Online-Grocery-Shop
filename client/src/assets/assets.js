@@ -133,32 +133,527 @@ export const categories = [
 
 // import dummy product image
 
-// vegetables
+// Fruits
+import apple_1 from "./product_images/fruits/apple_1.jpg"
+import apple_2 from "./product_images/fruits/apple_2.jpg"
+import apple_3 from "./product_images/fruits/apple_3.jpg"
+import apple_4 from "./product_images/fruits/apple_4.jpg"
+
+import banana_1 from "./product_images/fruits/banana_1.jpg"
+import banana_2 from "./product_images/fruits/banana_2.jpg"
+import banana_3 from "./product_images/fruits/banana_3.jpg"
+import banana_4 from "./product_images/fruits/banana_4.jpg"
+
+import orange_1 from "./product_images/fruits/orange_1.jpg"
+import orange_2 from "./product_images/fruits/orange_2.jpg"
+import orange_3 from "./product_images/fruits/orange_3.jpg"
+import orange_4 from "./product_images/fruits/orange_4.jpg"
+
+import mango_1 from "./product_images/fruits/mango_1.jpg"
+import mango_2 from "./product_images/fruits/mango_2.jpg"
+import mango_3 from "./product_images/fruits/mango_3.jpg"
+import mango_4 from "./product_images/fruits/mango_4.jpg"
+
+import guava_1 from "./product_images/fruits/guava_1.jpg"
+import guava_2 from "./product_images/fruits/guava_2.jpg"
+import guava_3 from "./product_images/fruits/guava_3.jpg"
+import guava_4 from "./product_images/fruits/guava_4.jpg"
+
+
+// Vegetables
 import potato_1 from "./product_images/vegetables/potato_1.jpg"
 import potato_2 from "./product_images/vegetables/potato_2.jpg"
 import potato_3 from "./product_images/vegetables/potato_3.jpg"
 import potato_4 from "./product_images/vegetables/potato_4.jpg"
 
+import tomato_1 from "./product_images/vegetables/tomato_1.jpg"
+import tomato_2 from "./product_images/vegetables/tomato_2.jpg"
+import tomato_3 from "./product_images/vegetables/tomato_3.jpg"
+import tomato_4 from "./product_images/vegetables/tomato_4.jpg"
+
+import carrot_1 from "./product_images/vegetables/carrot_1.jpg"
+import carrot_2 from "./product_images/vegetables/carrot_2.jpg"
+import carrot_3 from "./product_images/vegetables/carrot_3.jpg"
+import carrot_4 from "./product_images/vegetables/carrot_4.jpg"
+
+import onion_1 from "./product_images/vegetables/onion_1.jpg"
+import onion_2 from "./product_images/vegetables/onion_2.jpg"
+import onion_3 from "./product_images/vegetables/onion_3.jpg"
+import onion_4 from "./product_images/vegetables/onion_4.jpg"
+
+import cucumber_1 from "./product_images/vegetables/cucumber_1.jpg"
+import cucumber_2 from "./product_images/vegetables/cucumber_2.jpg"
+import cucumber_3 from "./product_images/vegetables/cucumber_3.jpg"
+import cucumber_4 from "./product_images/vegetables/cucumber_4.jpg"
+
+
+// // Meat
+// import chicken_1 from "./product_images/meat/chicken_1.jpg"
+// import chicken_2 from "./product_images/meat/chicken_2.jpg"
+// import chicken_3 from "./product_images/meat/chicken_3.jpg"
+// import chicken_4 from "./product_images/meat/chicken_4.jpg"
+
+// import beef_1 from "./product_images/meat/beef_1.jpg"
+// import beef_2 from "./product_images/meat/beef_2.jpg"
+// import beef_3 from "./product_images/meat/beef_3.jpg"
+// import beef_4 from "./product_images/meat/beef_4.jpg"
+
+// import mutton_1 from "./product_images/meat/mutton_1.jpg"
+// import mutton_2 from "./product_images/meat/mutton_2.jpg"
+// import mutton_3 from "./product_images/meat/mutton_3.jpg"
+// import mutton_4 from "./product_images/meat/mutton_4.jpg"
+
+// import duck_1 from "./product_images/meat/duck_1.jpg"
+// import duck_2 from "./product_images/meat/duck_2.jpg"
+// import duck_3 from "./product_images/meat/duck_3.jpg"
+// import duck_4 from "./product_images/meat/duck_4.jpg"
+
+// import minced_1 from "./product_images/meat/minced_1.jpg"
+// import minced_2 from "./product_images/meat/minced_2.jpg"
+// import minced_3 from "./product_images/meat/minced_3.jpg"
+// import minced_4 from "./product_images/meat/minced_4.jpg"
+
+
+// // Fish
+// import fish_1 from "./product_images/fish/fish_1.jpg"
+// import fish_2 from "./product_images/fish/fish_2.jpg"
+// import fish_3 from "./product_images/fish/fish_3.jpg"
+// import fish_4 from "./product_images/fish/fish_4.jpg"
+
+// import hilsa_1 from "./product_images/fish/hilsa_1.jpg"
+// import hilsa_2 from "./product_images/fish/hilsa_2.jpg"
+// import hilsa_3 from "./product_images/fish/hilsa_3.jpg"
+// import hilsa_4 from "./product_images/fish/hilsa_4.jpg"
+
+// import tilapia_1 from "./product_images/fish/tilapia_1.jpg"
+// import tilapia_2 from "./product_images/fish/tilapia_2.jpg"
+// import tilapia_3 from "./product_images/fish/tilapia_3.jpg"
+// import tilapia_4 from "./product_images/fish/tilapia_4.jpg"
+
+// import shrimp_1 from "./product_images/fish/shrimp_1.jpg"
+// import shrimp_2 from "./product_images/fish/shrimp_2.jpg"
+// import shrimp_3 from "./product_images/fish/shrimp_3.jpg"
+// import shrimp_4 from "./product_images/fish/shrimp_4.jpg"
+
+// import catla_1 from "./product_images/fish/catla_1.jpg"
+// import catla_2 from "./product_images/fish/catla_2.jpg"
+// import catla_3 from "./product_images/fish/catla_3.jpg"
+// import catla_4 from "./product_images/fish/catla_4.jpg"
+
+
+// // Dairy
+// import milk_1 from "./product_images/dairy/milk_1.jpg"
+// import milk_2 from "./product_images/dairy/milk_2.jpg"
+// import milk_3 from "./product_images/dairy/milk_3.jpg"
+// import milk_4 from "./product_images/dairy/milk_4.jpg"
+
+// import cheese_1 from "./product_images/dairy/cheese_1.jpg"
+// import cheese_2 from "./product_images/dairy/cheese_2.jpg"
+// import cheese_3 from "./product_images/dairy/cheese_3.jpg"
+// import cheese_4 from "./product_images/dairy/cheese_4.jpg"
+
+// import butter_1 from "./product_images/dairy/butter_1.jpg"
+// import butter_2 from "./product_images/dairy/butter_2.jpg"
+// import butter_3 from "./product_images/dairy/butter_3.jpg"
+// import butter_4 from "./product_images/dairy/butter_4.jpg"
+
+// import yogurt_1 from "./product_images/dairy/yogurt_1.jpg"
+// import yogurt_2 from "./product_images/dairy/yogurt_2.jpg"
+// import yogurt_3 from "./product_images/dairy/yogurt_3.jpg"
+// import yogurt_4 from "./product_images/dairy/yogurt_4.jpg"
+
+// import ghee_1 from "./product_images/dairy/ghee_1.jpg"
+// import ghee_2 from "./product_images/dairy/ghee_2.jpg"
+// import ghee_3 from "./product_images/dairy/ghee_3.jpg"
+// import ghee_4 from "./product_images/dairy/ghee_4.jpg"
+
 
 // dummy product objects
 
 export const dummyProducts = [
-    // vegetables
-    {
-        _id: "gd46g23h",
-        name: "Potato",
-        category: "Vegetables",
-        price: 35,
-        offerPrice: 30,
-        image: [potato_1, potato_2, potato_3, potato_4],
-        description: [
-            "Fresh and organic",
-            "Rich in carbohydrates",
-            "Ideal for curries and fries"
-        ],
-        createdAt: "2026-05-25T07:17:46.018Z",
-        updatedAt: "2026-05-25T07:18:13.103Z",
-        inStock: true,
-        rating: 4.5,
-    },
+    // Fruits
+{
+    _id: "fr1",
+    name: "Apple",
+    category: "Fruits",
+    price: 220,
+    offerPrice: 190,
+    image: [apple_1, apple_2, apple_3, apple_4],
+    description: [
+        "Fresh and sweet",
+        "Rich in fiber",
+        "Healthy daily fruit"
+    ],
+    inStock: true,
+    rating: 4.8,
+},
+{
+    _id: "fr2",
+    name: "Banana",
+    category: "Fruits",
+    price: 90,
+    offerPrice: 75,
+    image: [banana_1, banana_2, banana_3, banana_4],
+    description: [
+        "Naturally sweet",
+        "Rich in potassium",
+        "Perfect energy source"
+    ],
+    inStock: true,
+    rating: 4.5,
+},
+{
+    _id: "fr3",
+    name: "Orange",
+    category: "Fruits",
+    price: 180,
+    offerPrice: 150,
+    image: [orange_1, orange_2, orange_3, orange_4],
+    description: [
+        "Juicy and fresh",
+        "Vitamin C rich",
+        "Refreshing taste"
+    ],
+    inStock: true,
+    rating: 4.7,
+},
+{
+    _id: "fr4",
+    name: "Mango",
+    category: "Fruits",
+    price: 260,
+    offerPrice: 230,
+    image: [mango_1, mango_2, mango_3, mango_4],
+    description: [
+        "Seasonal favorite",
+        "Sweet and delicious",
+        "Premium quality"
+    ],
+    inStock: true,
+    rating: 4.9,
+},
+{
+    _id: "fr5",
+    name: "Guava",
+    category: "Fruits",
+    price: 120,
+    offerPrice: 100,
+    image: [guava_1, guava_2, guava_3, guava_4],
+    description: [
+        "Fresh farm guava",
+        "High vitamin content",
+        "Healthy snack"
+    ],
+    inStock: true,
+    rating: 4.4,
+},
+
+// Vegetables
+{
+    _id: "vg1",
+    name: "Potato",
+    category: "Vegetables",
+    price: 35,
+    offerPrice: 30,
+    image: [potato_1, potato_2, potato_3, potato_4],
+    description: [
+        "Fresh and organic",
+        "Rich in carbohydrates",
+        "Ideal for curries"
+    ],
+    inStock: true,
+    rating: 4.5,
+},
+{
+    _id: "vg2",
+    name: "Tomato",
+    category: "Vegetables",
+    price: 60,
+    offerPrice: 50,
+    image: [tomato_1, tomato_2, tomato_3, tomato_4],
+    description: [
+        "Fresh and juicy",
+        "Rich in antioxidants",
+        "Perfect for salads"
+    ],
+    inStock: true,
+    rating: 4.7,
+},
+{
+    _id: "vg3",
+    name: "Carrot",
+    category: "Vegetables",
+    price: 70,
+    offerPrice: 60,
+    image: [carrot_1, carrot_2, carrot_3, carrot_4],
+    description: [
+        "Crunchy texture",
+        "Good for eyesight",
+        "Fresh farm product"
+    ],
+    inStock: true,
+    rating: 4.4,
+},
+{
+    _id: "vg4",
+    name: "Onion",
+    category: "Vegetables",
+    price: 80,
+    offerPrice: 68,
+    image: [onion_1, onion_2, onion_3, onion_4],
+    description: [
+        "Daily cooking essential",
+        "Fresh quality",
+        "Strong flavor"
+    ],
+    inStock: true,
+    rating: 4.3,
+},
+{
+    _id: "vg5",
+    name: "Cucumber",
+    category: "Vegetables",
+    price: 55,
+    offerPrice: 45,
+    image: [cucumber_1, cucumber_2, cucumber_3, cucumber_4],
+    description: [
+        "Cool and fresh",
+        "Perfect for salad",
+        "Hydrating vegetable"
+    ],
+    inStock: true,
+    rating: 4.5,
+},
+
+// Meat
+// {
+//     _id: "mt1",
+//     name: "Chicken Breast",
+//     category: "Meat",
+//     price: 320,
+//     offerPrice: 290,
+//     image: [chicken_1, chicken_2, chicken_3, chicken_4],
+//     description: [
+//         "Fresh chicken",
+//         "High protein",
+//         "Healthy choice"
+//     ],
+//     inStock: true,
+//     rating: 4.7,
+// },
+// {
+//     _id: "mt2",
+//     name: "Beef",
+//     category: "Meat",
+//     price: 850,
+//     offerPrice: 790,
+//     image: [beef_1, beef_2, beef_3, beef_4],
+//     description: [
+//         "Premium beef",
+//         "Fresh cut",
+//         "Perfect for curry"
+//     ],
+//     inStock: true,
+//     rating: 4.8,
+// },
+// {
+//     _id: "mt3",
+//     name: "Mutton",
+//     category: "Meat",
+//     price: 1100,
+//     offerPrice: 1020,
+//     image: [mutton_1, mutton_2, mutton_3, mutton_4],
+//     description: [
+//         "Tender meat",
+//         "Premium quality",
+//         "Rich flavor"
+//     ],
+//     inStock: true,
+//     rating: 4.9,
+// },
+// {
+//     _id: "mt4",
+//     name: "Duck Meat",
+//     category: "Meat",
+//     price: 650,
+//     offerPrice: 590,
+//     image: [duck_1, duck_2, duck_3, duck_4],
+//     description: [
+//         "Traditional favorite",
+//         "Fresh and tasty",
+//         "Farm fresh"
+//     ],
+//     inStock: true,
+//     rating: 4.4,
+// },
+// {
+//     _id: "mt5",
+//     name: "Minced Meat",
+//     category: "Meat",
+//     price: 420,
+//     offerPrice: 390,
+//     image: [minced_1, minced_2, minced_3, minced_4],
+//     description: [
+//         "Fine minced",
+//         "Easy cooking",
+//         "Fresh preparation"
+//     ],
+//     inStock: true,
+//     rating: 4.5,
+// },
+
+// // Fish
+// {
+//     _id: "fs1",
+//     name: "Rui Fish",
+//     category: "Fish",
+//     price: 450,
+//     offerPrice: 410,
+//     image: [fish_1, fish_2, fish_3, fish_4],
+//     description: [
+//         "Fresh river fish",
+//         "Rich in omega-3",
+//         "Healthy and tasty"
+//     ],
+//     inStock: true,
+//     rating: 4.6,
+// },
+// {
+//     _id: "fs2",
+//     name: "Hilsa Fish",
+//     category: "Fish",
+//     price: 1600,
+//     offerPrice: 1490,
+//     image: [hilsa_1, hilsa_2, hilsa_3, hilsa_4],
+//     description: [
+//         "Premium quality hilsa",
+//         "Traditional favorite",
+//         "Fresh catch"
+//     ],
+//     inStock: true,
+//     rating: 4.9,
+// },
+// {
+//     _id: "fs3",
+//     name: "Tilapia Fish",
+//     category: "Fish",
+//     price: 280,
+//     offerPrice: 250,
+//     image: [tilapia_1, tilapia_2, tilapia_3, tilapia_4],
+//     description: [
+//         "Farm fresh fish",
+//         "Healthy protein",
+//         "Affordable choice"
+//     ],
+//     inStock: true,
+//     rating: 4.4,
+// },
+// {
+//     _id: "fs4",
+//     name: "Shrimp",
+//     category: "Fish",
+//     price: 780,
+//     offerPrice: 720,
+//     image: [shrimp_1, shrimp_2, shrimp_3, shrimp_4],
+//     description: [
+//         "Fresh shrimp",
+//         "Seafood favorite",
+//         "Perfect for curry"
+//     ],
+//     inStock: true,
+//     rating: 4.8,
+// },
+// {
+//     _id: "fs5",
+//     name: "Catla Fish",
+//     category: "Fish",
+//     price: 390,
+//     offerPrice: 350,
+//     image: [catla_1, catla_2, catla_3, catla_4],
+//     description: [
+//         "Freshwater fish",
+//         "Rich taste",
+//         "Daily meal favorite"
+//     ],
+//     inStock: true,
+//     rating: 4.5,
+// },
+
+// // Dairy
+// {
+//     _id: "dr1",
+//     name: "Fresh Milk",
+//     category: "Dairy",
+//     price: 90,
+//     offerPrice: 80,
+//     image: [milk_1, milk_2, milk_3, milk_4],
+//     description: [
+//         "Pure dairy milk",
+//         "Rich in calcium",
+//         "Healthy for all ages"
+//     ],
+//     inStock: true,
+//     rating: 4.4,
+// },
+// {
+//     _id: "dr2",
+//     name: "Cheese",
+//     category: "Dairy",
+//     price: 320,
+//     offerPrice: 290,
+//     image: [cheese_1, cheese_2, cheese_3, cheese_4],
+//     description: [
+//         "Creamy texture",
+//         "Perfect for pizza",
+//         "Premium quality"
+//     ],
+//     inStock: true,
+//     rating: 4.7,
+// },
+// {
+//     _id: "dr3",
+//     name: "Butter",
+//     category: "Dairy",
+//     price: 180,
+//     offerPrice: 160,
+//     image: [butter_1, butter_2, butter_3, butter_4],
+//     description: [
+//         "Smooth and creamy",
+//         "Ideal for breakfast",
+//         "Rich flavor"
+//     ],
+//     inStock: true,
+//     rating: 4.5,
+// },
+// {
+//     _id: "dr4",
+//     name: "Yogurt",
+//     category: "Dairy",
+//     price: 120,
+//     offerPrice: 100,
+//     image: [yogurt_1, yogurt_2, yogurt_3, yogurt_4],
+//     description: [
+//         "Fresh yogurt",
+//         "Healthy probiotic",
+//         "Refreshing taste"
+//     ],
+//     inStock: true,
+//     rating: 4.3,
+// },
+// {
+//     _id: "dr5",
+//     name: "Ghee",
+//     category: "Dairy",
+//     price: 650,
+//     offerPrice: 590,
+//     image: [ghee_1, ghee_2, ghee_3, ghee_4],
+//     description: [
+//         "Pure cow ghee",
+//         "Traditional cooking",
+//         "Rich aroma"
+//     ],
+//     inStock: true,
+//     rating: 4.8,
+//},
+
 ]

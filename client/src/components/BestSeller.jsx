@@ -9,12 +9,15 @@ import { useAppContext } from '../context/AppContext'
         <div className='mt-12'>
 
             {/* heading */}
-            <p className='text-3xl font-medium mb-6'>
+            <p className='text-2xl md:text-3xl font-medium mb-6'>
                 Best Seller
             </p>
             
-            <div >
-                <ProductCard product={products[0]}></ProductCard>
+            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6'>
+                {products.filter((product) => product.inStock).slice(0,5).map((product, index)=>(
+                    <ProductCard key={index} product={product}></ProductCard>
+                ))}
+                
             </div>
         </div>
     )

@@ -32,7 +32,7 @@ const Categories = () => {
         <div className='mt-12 relative'>
 
             {/* heading */}
-            <p className='text-3xl font-medium mb-6'>
+            <p className='text-2xl md:text-3xl font-medium mb-6'>
                 Categories
             </p>
 
