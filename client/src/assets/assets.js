@@ -2,12 +2,14 @@ import logo from "./Logo.png";
 import profile from "./profile.png"
 import banner from "./banner1.jpg"
 import bottomBanner from "./bottom_banner.png"
+import not_found from "./not_found.jpg"
 
 export const assets = {
     logo,
     profile,
     banner,
-    bottomBanner
+    bottomBanner,
+    not_found
 }
 
 

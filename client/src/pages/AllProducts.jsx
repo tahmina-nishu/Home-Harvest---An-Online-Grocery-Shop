@@ -22,7 +22,7 @@ const AllProducts = () => {
     }, [products, searchQuery])
 
     return (
-        <div className='mt-32 flex flex-col'>
+        <div className='mt-29 flex flex-col'>
 
             {/* title div  */}
             <div className='flex flex-col items-end w-max'>
@@ -31,7 +31,7 @@ const AllProducts = () => {
             </div>
 
             {/* card div  */}
-            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6'>
+            <div className='grid grid-cols-2 mt-5 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6'>
                 {filteredProducts.filter((product)=> product.inStock).map((product, index)=>(
                     <ProductCard key={index} product={product}></ProductCard>
                 ))}

@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
 
     // product available hole eta show korbe
     return product && (
-        <div className="border border-primary/50 rounded-xl md:px-4 px-3 py-3 bg-white w-full shadow-sm hover:shadow-md transition">
+        <div  className="border border-primary/50 rounded-xl md:px-4 px-3 py-3 bg-white w-full shadow-sm hover:shadow-md transition">
 
             {/* product image */}
             <div
