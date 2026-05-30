@@ -8,12 +8,14 @@ const ProductCard = ({ product }) => {
         addToCart,
         removeFromCart,
         cartItems,
-        navigate
+        navigate,
     } = useAppContext();
 
     // product available hole eta show korbe
     return product && (
-        <div  className="border border-primary/50 rounded-xl md:px-4 px-3 py-3 bg-white w-full shadow-sm hover:shadow-md transition">
+
+        // ------- ekhane onClick ta individual product er details er jonno ---------
+        <div onClick={()=> {navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)}} className="border border-primary/50 rounded-xl md:px-4 px-3 py-3 bg-white w-full shadow-sm hover:shadow-md transition">
 
             {/* product image */}
             <div
