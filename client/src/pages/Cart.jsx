@@ -14,15 +14,24 @@ const Cart = () => {
 
 
     // function for get product data and add in cart array
-    const getCart = ()=>{
-        let tempArray = []
-        for(const key in cartItems){
-            const product = products.find((item)=>item._id === key)
-            product.quantity = cartItems[key]
-            tempArray.push(product)
+    const getCart = () => {
+    let tempArray = [];
+
+    for (const key in cartItems) {
+        const product = products.find(
+            (item) => String(item._id) === String(key)
+        );
+
+        if (product) {
+            tempArray.push({
+                ...product,
+                quantity: cartItems[key]
+            });
         }
-        setCartArray(tempArray)
     }
+
+    setCartArray(tempArray);
+};
 
     // useEffect to execute function
     useEffect(()=>{
@@ -54,17 +63,26 @@ const Cart = () => {
                                 <img className="max-w-full h-full object-cover" src={product.image[0]} alt={product.name} />
                             </div>
                             <div>
-                                <p className="hidden md:block font-semibold">{product.name}</p>
+                                <p className="block font-semibold">{product.name}</p>
                                 <div className="font-normal text-gray-500/70">
                                     <p>Weight: <span>{product.weight || "N/A"}</span></p>
+
+                                    {/* Quantity div START */}
                                     <div className='flex items-center'>
                                         <p>Qty:</p>
-                                        <select className='outline-none'>
+                                        <select
+                                            className='outline-none'
+                                            value={product.quantity}
+                                            onChange={(e) =>
+                                                updateCartItem(product._id, Number(e.target.value))
+                                            }
+                                        >
                                             {Array(cartItems[product._id] > 9 ? cartItems[product._id] : 9).fill('').map((_, index) => (
                                                 <option key={index} value={index + 1}>{index + 1}</option>
                                             ))}
                                         </select>
                                     </div>
+                                    {/* Quantity div END */}
                                 </div>
                             </div>
                         </div>
