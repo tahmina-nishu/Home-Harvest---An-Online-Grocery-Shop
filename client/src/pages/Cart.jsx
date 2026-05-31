@@ -15,23 +15,28 @@ const Cart = () => {
 
     // function for get product data and add in cart array
     const getCart = () => {
-    let tempArray = [];
+        let tempArray = [];
 
-    for (const key in cartItems) {
-        const product = products.find(
-            (item) => String(item._id) === String(key)
-        );
+        for (const key in cartItems) {
+            const product = products.find(
+                (item) => String(item._id) === String(key)
+            );
 
-        if (product) {
-            tempArray.push({
-                ...product,
-                quantity: cartItems[key]
-            });
+            if (product) {
+                tempArray.push({
+                    ...product,
+                    quantity: cartItems[key]
+                });
+            }
         }
-    }
 
-    setCartArray(tempArray);
-};
+        setCartArray(tempArray);
+    };
+
+    // order place function
+    const placeOrder = async ()=>{
+
+    }
 
     // useEffect to execute function
     useEffect(()=>{
@@ -72,7 +77,7 @@ const Cart = () => {
                                         <p>Qty:</p>
                                         <select
                                             className='outline-none'
-                                            value={product.quantity}
+                                            value={cartItems[product._id]}
                                             onChange={(e) =>
                                                 updateCartItem(product._id, Number(e.target.value))
                                             }
@@ -141,21 +146,21 @@ const Cart = () => {
 
                 <div className="text-gray-500 mt-4 space-y-2">
                     <p className="flex justify-between">
-                        <span>Price</span><span>{currency} </span>
+                        <span>Price</span><span>{currency}{getCartAmount()} </span>
                     </p>
                     <p className="flex justify-between">
                         <span>Shipping Fee</span><span className="text-green-600">Free</span>
                     </p>
                     <p className="flex justify-between">
-                        <span>Tax (2%)</span><span>$20</span>
+                        <span>Tax (2%)</span><span>{currency}{getCartAmount() * 2 /100}</span>
                     </p>
                     <p className="flex justify-between text-lg font-medium mt-3">
-                        <span>Total Amount:</span><span>$20</span>
+                        <span>Total Amount:</span><span>{currency}{getCartAmount() + getCartAmount() * 2 /100}</span>
                     </p>
                 </div>
 
-                <button className="w-full py-3 mt-6 cursor-pointer bg-primary text-white font-medium hover:bg-primary-dull transition">
-                    Place Order
+                <button onClick={placeOrder} className="w-full py-3 mt-6 cursor-pointer bg-primary text-white font-medium hover:bg-primary-dull transition">
+                    {paymentOption === "COD" ? "Place Order" : "Proceed to Checkout"}
                 </button>
             </div>
         </div>

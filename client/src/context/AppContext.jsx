@@ -75,13 +75,13 @@ export const AppContextProvider = ({children})=>{
         return totalCount;
     }
 
-    // function to count cart items
+    // function to count total amount of cart items
     const getCartAmount = ()=>{
         let totalAmount = 0;
         for(const item in cartItems){
-            let itemInfo = products.find((product)=> product._id === items)
-            if(cartItems[items] > 0){
-                totalAmount += itemInfo.offerPrice * cartItems[items]
+            let itemInfo = products.find((product)=> product._id === item)
+            if(cartItems[item] > 0){
+                totalAmount += itemInfo.offerPrice * cartItems[item]
             }
         }
 
