@@ -126,6 +126,52 @@ export const footerLinks = [
 ]
 
 
+// dummy address objects
+
+export const dummyAddresses = [
+    {
+        _id: "addr1",
+        street: "House 12, Road 5, Dhanmondi",
+        city: "Dhaka",
+        state: "Dhaka",
+        country: "Bangladesh",
+        zipCode: "1209"
+    },
+    {
+        _id: "addr2",
+        street: "House 45, CDA Avenue",
+        city: "Chattogram",
+        state: "Chattogram",
+        country: "Bangladesh",
+        zipCode: "4000"
+    },
+    {
+        _id: "addr3",
+        street: "House 18, Zindabazar",
+        city: "Sylhet",
+        state: "Sylhet",
+        country: "Bangladesh",
+        zipCode: "3100"
+    },
+    {
+        _id: "addr4",
+        street: "House 27, Sonadanga",
+        city: "Khulna",
+        state: "Khulna",
+        country: "Bangladesh",
+        zipCode: "9100"
+    },
+    {
+        _id: "addr5",
+        street: "House 33, Lalkhan Bazar",
+        city: "Chattogram",
+        state: "Chattogram",
+        country: "Bangladesh",
+        zipCode: "4203"
+    }
+]
+
+
 // import category images 
 
 import fruit_image from "./fruit_image.jpg"
@@ -771,6 +817,6 @@ export const dummyProducts = [
 //     ],
 //     inStock: true,
 //     rating: 4.8,
-//},
+// },
 
 ]
