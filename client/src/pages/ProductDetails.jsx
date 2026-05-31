@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../context/AppContext';
 import { Link, useParams } from 'react-router-dom';
+import ProductCard from '../components/ProductCard';
 
 const ProductDetails = () => {
 
@@ -16,7 +17,8 @@ const ProductDetails = () => {
     useEffect(()=>{
         if(products.length > 0){
             let productsCopy = products.slice();
-            productsCopy = productsCopy.filter((item)=> product.category === item.category)
+            productsCopy = productsCopy.filter((item)=> product.category === item.category &&
+        item._id !== product._id)
 
             setRelatedProducts(productsCopy.slice(0,5))
         }
@@ -97,6 +99,30 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
+
+            {/* ------------------ Related Products div START ------------  */}
+            <div  className='flex flex-col items-center mt-20'>
+
+                {/* title START  */}
+                <div className='flex flex-col items-center w-max'>
+                    <p className='text-2xl font-medium'>Related Products</p>
+                    <div className='mb-3 w-24 h-0.5 bg-primary rounded-full mt-1'></div>
+                </div>
+                {/* title END  */}
+
+                {/* related product array START  */}
+                <div className="w-full flex justify-center">
+                    <div className='grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-6 mt-6 justify-items-center'>
+                        {relatedProducts.filter((product)=>product.inStock).slice(0,3).map((product, index)=>(
+                            <ProductCard key={index} product={product}></ProductCard>
+                        ))}
+                    </div>
+                </div>
+                {/* related product array END  */}
+
+                <button onClick={()=>{navigate('/products'); scrollTo(0,0)}} className='mx-auto cursor-pointer px-12 my-16 py-2.5 border border-primary/80 text-primary rounded-md hover:bg-primary/10 transition'>See more</button>
+            </div>
+            {/* ------------------ Related Products div END ------------  */}
         </div>
     );
 }
