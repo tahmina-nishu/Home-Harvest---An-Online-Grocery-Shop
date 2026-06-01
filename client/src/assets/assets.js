@@ -841,9 +841,7 @@ export const dummyOrders = [
             }
         ],
 
-        amount:
-            (dummyProducts[0].offerPrice * 2) +
-            (dummyProducts[1].offerPrice * 1),
+        amount: 0,
 
         address: dummyAddresses[0],
         status: "Processing",
@@ -866,7 +864,7 @@ export const dummyOrders = [
             }
         ],
 
-        amount: dummyProducts[2].offerPrice * 1,
+        amount: 0,
 
         address: dummyAddresses[1],
         status: "Shipped",
@@ -894,9 +892,7 @@ export const dummyOrders = [
             }
         ],
 
-        amount:
-            (dummyProducts[3].offerPrice * 1) +
-            (dummyProducts[4].offerPrice * 3),
+        amount: 0,
 
         address: dummyAddresses[2],
         status: "Delivered",
