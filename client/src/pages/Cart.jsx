@@ -47,58 +47,125 @@ const Cart = () => {
     
     
     return products.length > 0 && cartItems ? (
-        <div className="mt-20 flex flex-col md:flex-row py-16 max-w-6xl w-full px-6 mx-auto">
+        <div className="mt-20 flex flex-col md:flex-row items-start py-16 max-w-7xl w-full px-6 mx-auto gap-8">
             <div className='flex-1 max-w-4xl'>
                 <h1 className="text-3xl font-medium mb-6">
                     Shopping Cart <span className="text-sm text-primary">{getCartCount()} Items</span>
                 </h1>
 
-                <div className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 text-base font-medium pb-3">
-                    <p className="text-left">Product Details</p>
+                <div className="grid grid-cols-[2.5fr_1fr_1fr_1fr] bg-primary text-white rounded-xl px-5 py-4 mb-4">
+                    <p>Product</p>
+                    <p className="text-center">Price</p>
+                    <p className="text-center">Quantity</p>
                     <p className="text-center">Subtotal</p>
-                    <p className="text-center">Action</p>
                 </div>
 
                 {cartArray.map((product, index) => (
-                    <div key={index} className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 items-center text-sm md:text-base font-medium pt-3">
-                        <div className="flex items-center md:gap-6 gap-3">
-                            <div onClick={()=>{
-                                navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)
-                            }} className="cursor-pointer w-24 h-24 flex items-center justify-center border border-gray-300 rounded overflow-hidden">
-                                <img className="max-w-full h-full object-cover" src={product.image[0]} alt={product.name} />
-                            </div>
-                            <div>
-                                <p className="block font-semibold">{product.name}</p>
-                                <div className="font-normal text-gray-500/70">
-                                    <p>Weight: <span>{product.weight || "N/A"}</span></p>
 
-                                    {/* Quantity div START */}
-                                    <div className='flex items-center'>
-                                        <p>Qty:</p>
-                                        <select
-                                            className='outline-none'
-                                            value={cartItems[product._id]}
-                                            onChange={(e) =>
-                                                updateCartItem(product._id, Number(e.target.value))
-                                            }
-                                        >
-                                            {Array(cartItems[product._id] > 9 ? cartItems[product._id] : 9).fill('').map((_, index) => (
-                                                <option key={index} value={index + 1}>{index + 1}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    {/* Quantity div END */}
-                                </div>
+                    <div
+                        key={index}
+                        className="grid grid-cols-[2.5fr_1fr_1fr_1fr] items-center border-b border-primary/10 py-5"
+                    >
+
+                        {/* Product */}
+                        <div className="flex items-center gap-4">
+
+                            {/* Remove Button */}
+                            <button
+                                onClick={() => removeFromCart(product._id)}
+                                className="text-xl text-gray-400 hover:text-primary transition"
+                            >
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="m12.5 7.5-5 5m0-5 5 5m5.833-2.5a8.333 8.333 0 1 1-16.667 0 8.333 8.333 0 0 1 16.667 0" stroke="#fe3507" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                            </button>
+
+                            {/* Product Image */}
+                            <div
+                                onClick={() => {
+                                    navigate(
+                                        `/products/${product.category.toLowerCase()}/${product._id}`
+                                    );
+                                    scrollTo(0, 0);
+                                }}
+                                className="cursor-pointer w-24 h-24 flex items-center justify-center border border-gray-300 rounded overflow-hidden"
+                            >
+                                <img
+                                    className="max-w-full h-full object-cover"
+                                    src={product.image[0]}
+                                    alt={product.name}
+                                />
                             </div>
+
+                            {/* Product Info */}
+                            <div>
+
+                                <p className="font-semibold text-gray-800">
+                                    {product.name}
+                                </p>
+
+                                <p className="text-sm text-gray-500 mt-1">
+                                    {product.weight || "1 Kg"}
+                                </p>
+
+                            </div>
+
                         </div>
-                        <p className="text-center">{currency}{product.offerPrice * product.quantity}</p>
-                        <button onClick={()=>removeFromCart(product._id)} className="cursor-pointer mx-auto">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="m12.5 7.5-5 5m0-5 5 5m5.833-2.5a8.333 8.333 0 1 1-16.667 0 8.333 8.333 0 0 1 16.667 0" stroke="#fe3507" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </button>
-                    </div>)
-                )}
+
+                        {/* Price */}
+                        <p className="text-center font-semibold text-primary">
+                            {currency}
+                            {product.offerPrice}
+                        </p>
+
+                        {/* Quantity */}
+                        <div className="flex justify-center">
+
+                            <div className="flex items-center border border-primary/20 rounded-lg overflow-hidden">
+
+                                <button
+                                    onClick={() =>
+                                        cartItems[product._id] > 1
+                                            ? updateCartItem(
+                                                    product._id,
+                                                    cartItems[product._id] - 1
+                                                )
+                                            : removeFromCart(product._id)
+                                    }
+                                    className="px-3 py-1 bg-primary/5 hover:bg-primary/10 text-primary transition"
+                                >
+                                    -
+                                </button>
+
+                                <span className="px-4 text-primary font-medium">
+                                    {cartItems[product._id]}
+                                </span>
+
+                                <button
+                                    onClick={() =>
+                                        updateCartItem(
+                                            product._id,
+                                            cartItems[product._id] + 1
+                                        )
+                                    }
+                                    className="px-3 py-1 bg-primary/5 hover:bg-primary/10 text-primary transition"
+                                >
+                                    +
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        {/* Subtotal */}
+                        <p className="text-center font-bold text-primary">
+                            {currency}
+                            {(product.offerPrice * cartItems[product._id]).toFixed(2)}
+                        </p>
+
+                    </div>
+
+                ))}
 
                 <button onClick={()=>{navigate("/products"); scrollTo(0,0)}} className="group cursor-pointer flex items-center mt-8 gap-2 text-indigo-500 font-medium">
                     <svg className='group-hover:-translate-x-1 transition' width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +176,7 @@ const Cart = () => {
 
             </div>
 
-            <div className="max-w-90 w-full bg-primary/3 p-5 max-md:mt-16 border border-primary/70">
+            <div className="max-w-90 w-full bg-primary/3 p-5 mt-16 border border-primary/70">
                 <h2 className="text-xl md:text-xl font-medium">Order Summary</h2>
                 <hr className="border-gray-300 my-5" />
 
