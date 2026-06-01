@@ -4,6 +4,9 @@ import banner from "./banner1.jpg"
 import bottomBanner from "./bottom_banner.png"
 import not_found from "./not_found.jpg"
 import add_address_image from "./add_address_image.jpg"
+import add_icon from "./add_icon.jpg"
+import product_list_icon from "./product_list_icon.jpg"
+import order_icon from "./order_icon.jpg"
 
 export const assets = {
     logo,
@@ -11,7 +14,10 @@ export const assets = {
     banner,
     bottomBanner,
     not_found,
-    add_address_image
+    add_address_image,
+    product_list_icon,
+    add_icon,
+    order_icon,
 }
 
 
