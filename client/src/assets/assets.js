@@ -295,7 +295,6 @@ export const categories = [
 }
 ]
 
-
 // import dummy product image
 
 // Fruits
@@ -822,3 +821,89 @@ export const dummyProducts = [
 // },
 
 ]
+
+// dummy orders object
+export const dummyOrders = [
+    {
+        _id: "ORD001",
+        userId: "USR001",
+
+        items: [
+            {
+                product: dummyProducts[0],
+                quantity: 2,
+                _id: "ITM001"
+            },
+            {
+                product: dummyProducts[1],
+                quantity: 1,
+                _id: "ITM002"
+            }
+        ],
+
+        amount:
+            (dummyProducts[0].offerPrice * 2) +
+            (dummyProducts[1].offerPrice * 1),
+
+        address: dummyAddresses[0],
+        status: "Processing",
+        paymentType: "COD",
+        isPaid: false,
+
+        createdAt: "2026-06-01T10:00:00.000Z",
+        updatedAt: "2026-06-01T10:10:00.000Z"
+    },
+
+    {
+        _id: "ORD002",
+        userId: "USR001",
+
+        items: [
+            {
+                product: dummyProducts[2],
+                quantity: 1,
+                _id: "ITM003"
+            }
+        ],
+
+        amount: dummyProducts[2].offerPrice * 1,
+
+        address: dummyAddresses[1],
+        status: "Shipped",
+        paymentType: "Online",
+        isPaid: true,
+
+        createdAt: "2026-05-28T09:30:00.000Z",
+        updatedAt: "2026-05-29T12:00:00.000Z"
+    },
+
+    {
+        _id: "ORD003",
+        userId: "USR001",
+
+        items: [
+            {
+                product: dummyProducts[3],
+                quantity: 1,
+                _id: "ITM004"
+            },
+            {
+                product: dummyProducts[4],
+                quantity: 3,
+                _id: "ITM005"
+            }
+        ],
+
+        amount:
+            (dummyProducts[3].offerPrice * 1) +
+            (dummyProducts[4].offerPrice * 3),
+
+        address: dummyAddresses[2],
+        status: "Delivered",
+        paymentType: "COD",
+        isPaid: false,
+
+        createdAt: "2026-05-20T14:15:00.000Z",
+        updatedAt: "2026-05-21T16:45:00.000Z"
+    }
+];
