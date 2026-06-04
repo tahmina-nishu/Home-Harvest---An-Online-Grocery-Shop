@@ -41,3 +41,7 @@
     transform: scaleX(1);
 }
 /* ---------------- NavLink hover END ---------------- */
+
+.no-scrollbar::-webkit-scrollbar{
+    display: none;
+}

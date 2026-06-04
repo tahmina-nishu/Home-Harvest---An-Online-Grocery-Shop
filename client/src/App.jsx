@@ -14,6 +14,9 @@ import AddAddress from './pages/AddAddress';
 import MyOrders from './pages/MyOrders';
 import SellerLogin from './components/seller/SellerLogin';
 import SellerLayout from './pages/seller/SellerLayout';
+import AddProduct from './pages/seller/AddProduct';
+import ProductList from './pages/seller/ProductList';
+import Orders from './pages/seller/Orders';
 
 
 const App = () => {
@@ -32,31 +35,36 @@ const App = () => {
       <div className={`${isSellerPath ? "" : "px-6 md:px-16 lg:px-24"}`}>
         <Routes>
           {/* Home Route  */}
-          <Route path='/' element={<Home></Home>}></Route>
+          <Route path='/' element={<Home />} />
           
           {/* All Products Route  */}
-          <Route path='/products' element={<AllProducts></AllProducts>}></Route>
+          <Route path='/products' element={<AllProducts />} />
           
           {/* Category Route  */}
-          <Route path='/products/:category' element={<ProductCategory></ProductCategory>}></Route>
+          <Route path='/products/:category' element={<ProductCategory />} />
           
           {/* Individual Product details Route  */}
-          <Route path='/products/:category/:_id' element={<ProductDetails></ProductDetails>}></Route>
+          <Route path='/products/:category/:_id' element={<ProductDetails />} />
           
           {/* Cart Route  */}
-          <Route path='/cart' element={<Cart></Cart>}></Route>
+          <Route path='/cart' element={<Cart />} />
           
           {/* Add address Route  */}
-          <Route path='/add-address' element={<AddAddress></AddAddress>}></Route>
+          <Route path='/add-address' element={<AddAddress />} />
           
           {/* My orders page Route  */}
-          <Route path='/my-orders' element={<MyOrders></MyOrders>}></Route>
-          <Route path='/seller' element={isSeller ? <SellerLayout></SellerLayout> : <SellerLogin></SellerLogin>}>
+          <Route path='/my-orders' element={<MyOrders />} />
 
+          {/* Seller layout Route  */}
+          <Route path='/seller' element={isSeller ? <SellerLayout/> : <SellerLogin />}>
+              <Route index element={isSeller ? <AddProduct /> : null} />
+              <Route path='product-list' element={<ProductList/>} />
+              <Route path='orders' element={<Orders />} />
           </Route>
+          
         </Routes>
       </div>
-      {isSellerPath ? null : <Footer></Footer>}
+      {isSellerPath ? null : <Footer />}
     </div>
   )
 }
