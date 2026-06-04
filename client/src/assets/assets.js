@@ -139,6 +139,8 @@ export const footerLinks = [
 export const dummyAddresses = [
     {
         _id: "addr1",
+        firstName: "Rahim",
+        lastName: "Ahmed",
         street: "House 12, Road 5, Dhanmondi",
         city: "Dhaka",
         state: "Dhaka",
@@ -147,6 +149,8 @@ export const dummyAddresses = [
     },
     {
         _id: "addr2",
+        firstName: "Karim",
+        lastName: "Chowdhury",
         street: "House 45, CDA Avenue",
         city: "Chattogram",
         state: "Chattogram",
@@ -155,6 +159,8 @@ export const dummyAddresses = [
     },
     {
         _id: "addr3",
+        firstName: "Nusrat",
+        lastName: "Jahan",
         street: "House 18, Zindabazar",
         city: "Sylhet",
         state: "Sylhet",
@@ -163,6 +169,8 @@ export const dummyAddresses = [
     },
     {
         _id: "addr4",
+        firstName: "Sabbir",
+        lastName: "Hossain",
         street: "House 27, Sonadanga",
         city: "Khulna",
         state: "Khulna",
@@ -171,6 +179,8 @@ export const dummyAddresses = [
     },
     {
         _id: "addr5",
+        firstName: "Tanvir",
+        lastName: "Hasan",
         street: "House 33, Lalkhan Bazar",
         city: "Chattogram",
         state: "Chattogram",
@@ -850,6 +860,7 @@ export const dummyOrders = [
         amount: 0,
 
         address: dummyAddresses[0],
+        phone: "01821326687",
         status: "Processing",
         paymentType: "COD",
         isPaid: false,
@@ -873,6 +884,7 @@ export const dummyOrders = [
         amount: 0,
 
         address: dummyAddresses[1],
+        phone: "01821314687",
         status: "Shipped",
         paymentType: "Online",
         isPaid: true,
@@ -901,6 +913,7 @@ export const dummyOrders = [
         amount: 0,
 
         address: dummyAddresses[2],
+        phone: "01821325678",
         status: "Delivered",
         paymentType: "COD",
         isPaid: false,
