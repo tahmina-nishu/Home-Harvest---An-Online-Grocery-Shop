@@ -9,7 +9,10 @@ export const register = async (req, res)=>{
 
         // name , email, ba pass konota missing thakle eta kaj krbe 
         if(!name || !email || !password){
-            return res.json({success: false, message: 'Missing Details'})
+            return res.json({
+                success: false, 
+                message: 'Missing Details'
+            })
         }
 
         // individual user k find out korbe
@@ -40,10 +43,19 @@ export const register = async (req, res)=>{
 
             // send the response to frontend user
         })
-            return res.json({success: true, user: {email: user.email, name: user.name,}})
+            return res.json({
+                success: true, 
+                user: {
+                    email: user.email, 
+                    name: user.name,
+                }
+            })
     } catch (error) {
         console.log(error.message);
-        res.json({success: false, message: error.message});
+        res.json({
+            success: false, 
+            message: error.message
+        });
     }
 }
 
@@ -55,16 +67,26 @@ export const login = async (req, res)=>{
         const {email, password} = req.body;
 
         if(!email || !password)
-            return res.json({success: false, message: 'Email and password required'});
+            return res.json({
+                    success: false, 
+                    message: 'Email and password required'
+                });
+
         const user = await User.findOne({email});
 
-        if(!User){
-            return res.json({success: false, message: 'Invalid email or password'});
+        if(!user){
+            return res.json({
+                success: false, 
+                message: 'Invalid email or password'}
+            );
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
         if(!isMatch)
-            return res.json({success: false, message: 'Invalid email or password'});
+            return res.json({
+                success: false, 
+                message: 'Invalid email or password'
+            });
 
         // create a token to send response
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn:'7d'}) 
@@ -78,9 +100,18 @@ export const login = async (req, res)=>{
 
             // send the response to frontend user
         })
-            return res.json({success: true, user: {email: user.email, name: user.name,}})
+            return res.json({
+                success: true, 
+                user: {
+                    email: user.email, 
+                    name: user.name,
+                }
+            })
     } catch (error) {
         console.log(error.message);
-        res.json({success: false, message: error.message});
+        res.json({
+            success: false, 
+            message: error.message
+        });
     }
 }
