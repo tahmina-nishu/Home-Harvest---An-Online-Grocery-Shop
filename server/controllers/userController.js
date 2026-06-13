@@ -121,7 +121,7 @@ export const isAuth = async (req, res)=>{
     try {
         const {userId} = req.body;
 
-        // find the user from database and rmove the password data
+        // find the user from database and remove the password data
         const user = await User.findById(userId).select("-password")
         return res.json({
                 success: true, 
@@ -129,6 +129,31 @@ export const isAuth = async (req, res)=>{
             })
 
             
+    } catch (error) {
+        console.log(error.message);
+        res.json({
+            success: false, 
+            message: error.message
+        });
+    }
+}
+
+// Logout User : /api/user/logout
+export const login = async (req, res)=>{
+    try {
+        // clear the cookie
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', 
+        })
+
+        // cookie clear korar por logged out hoye jabe. erpor ekta response pathabe
+        return res.json({
+                success: true, 
+                message: "Logged Out"
+            })
+
     } catch (error) {
         console.log(error.message);
         res.json({
