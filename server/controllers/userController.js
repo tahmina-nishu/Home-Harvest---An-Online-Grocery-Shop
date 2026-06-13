@@ -59,8 +59,6 @@ export const register = async (req, res)=>{
     }
 }
 
-
-
 // Login User : /api/user/login
 export const login = async (req, res)=>{
     try {
@@ -139,7 +137,7 @@ export const isAuth = async (req, res)=>{
 }
 
 // Logout User : /api/user/logout
-export const login = async (req, res)=>{
+export const logout = async (req, res)=>{
     try {
         // clear the cookie
         res.clearCookie('token', {
