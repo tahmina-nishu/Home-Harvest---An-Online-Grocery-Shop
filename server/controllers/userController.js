@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+// --------------------user register / login / logout controller START --------------------
 // Register User : /api/user/register
 export const register = async (req, res)=>{
     try{
@@ -160,3 +161,4 @@ export const logout = async (req, res)=>{
         });
     }
 }
+// --------------------user register / login / logout controller END --------------------
