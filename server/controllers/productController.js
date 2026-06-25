@@ -35,19 +35,70 @@ export const addProduct = async (req, res)=>{
 }
 
 
-// Ge Product : /api/product/list
+// Get Product : /api/product/list
 export const productList = async (req, res)=>{
+    try {
+        const products = await Product.find({})
 
+        // send the response      
+        res.JSON({
+            success: true, 
+            products
+        })
+
+    } catch (error) {
+        console.log(error.message);
+        res.JSON({
+            success: false, 
+            message: error.message
+        })
+    }
 }
 
 
 // get single Product : /api/product/id
 export const productById = async (req, res)=>{
+    try {
+        const { id } = req.body
 
+        // find the product from database
+        const product = await Product.findById(id)
+
+        // send the response      
+        res.JSON({
+            success: true, 
+            products
+        })
+
+    } catch (error) {
+        console.log(error.message);
+        res.JSON({
+            success: false, 
+            message: error.message
+        })
+    }
 }
 
 
 // change Product inStock : /api/product/stock
 export const changeStock = async (req, res)=>{
+    try {
+        const { id, inStock } = req.body
 
+        // find the product and update 
+        await Product.findByIdAndUpdate(id, {inStock})
+
+        // send the response      
+        res.JSON({
+            success: true, 
+            message: "Stock updated"
+        })
+
+    } catch (error) {
+        console.log(error.message);
+        res.JSON({
+            success: false, 
+            message: error.message
+        })
+    }
 }
