@@ -9,9 +9,19 @@ export const addProduct = async (req, res)=>{
 
         const images = req.files
 
+        // Check if at least one image is uploaded
+        if (!images || images.length === 0) {
+            return res.json({
+                success: false,
+                message: "Please upload at least one image"
+            });
+        }
+
         let imagesUrl = await Promise.all(
             images.map(async (item)=>{
-                let result = await cloudinary.uploader.upload(item.path, {resource_type: 'image'});
+                let result = await cloudinary.uploader.upload(item.path, {
+                    resource_type: 'image'
+                });
                 return result.secure_url
             })
         )
@@ -20,14 +30,14 @@ export const addProduct = async (req, res)=>{
         await Product.create({...productData, image: imagesUrl})
 
         // return the response
-        res.JSON({
+        return res.json({
             success: true, 
             message: "Product added"
         })
 
     } catch (error) {
         console.log(error.message);
-        res.JSON({
+        return res.json({
             success: false, 
             message: error.message
         })
@@ -41,14 +51,14 @@ export const productList = async (req, res)=>{
         const products = await Product.find({})
 
         // send the response      
-        res.JSON({
+        return res.json({
             success: true, 
             products
         })
 
     } catch (error) {
         console.log(error.message);
-        res.JSON({
+        return res.json({
             success: false, 
             message: error.message
         })
@@ -62,17 +72,25 @@ export const productById = async (req, res)=>{
         const { id } = req.body
 
         // find the product from database
-        const product = await Product.findById(id)
+        const product = await Product.findById(id);
+
+        // Check if product exists
+        if (!product) {
+            return res.json({
+                success: false,
+                message: "Product not found"
+            });
+        }
 
         // send the response      
-        res.JSON({
+        return res.json({
             success: true, 
-            products
+            product
         })
 
     } catch (error) {
         console.log(error.message);
-        res.JSON({
+        return res.json({
             success: false, 
             message: error.message
         })
@@ -86,17 +104,28 @@ export const changeStock = async (req, res)=>{
         const { id, inStock } = req.body
 
         // find the product and update 
-        await Product.findByIdAndUpdate(id, {inStock})
+        const product = await Product.findByIdAndUpdate(
+            id,
+            { inStock },
+            { new: true }
+        );
+
+        if (!product) {
+            return res.json({
+                success: false,
+                message: "Product not found"
+            });
+        }
 
         // send the response      
-        res.JSON({
+        return res.json({
             success: true, 
             message: "Stock updated"
-        })
+        });
 
     } catch (error) {
         console.log(error.message);
-        res.JSON({
+        return res.json({
             success: false, 
             message: error.message
         })

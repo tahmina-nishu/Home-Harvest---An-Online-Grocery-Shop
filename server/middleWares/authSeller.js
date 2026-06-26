@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const authSeller = async (req, resizeBy, next) =>{
+const authSeller = async (req, res, next) =>{
     const { sellerToken } = req.cookies;
 
     if(!sellerToken) {
@@ -12,7 +12,7 @@ const authSeller = async (req, resizeBy, next) =>{
 
     try {
         const tokenDecode = jwt.verify(sellerToken, process.env.JWT_SECRET)
-        if(tokenDecode.email === process.env.SELLER_EMAIL){
+        if(tokenDecode.email.toLowerCase() === process.env.SELLER_EMAIL.toLowerCase()){
             next();
         }else{
             return res.json({
@@ -22,7 +22,7 @@ const authSeller = async (req, resizeBy, next) =>{
         }    
 
     } catch (error) {
-        res.json({
+        return res.json({
                 success: false,
                 message: error.message
             });

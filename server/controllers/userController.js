@@ -7,27 +7,58 @@ import jwt from 'jsonwebtoken';
 export const register = async (req, res)=>{
     try{
         const {name, email, password} = req.body;
-
+        
         // name , email, ba pass konota missing thakle eta kaj krbe 
-        if(!name || !email || !password){
+        if (
+            !name?.trim() ||
+            !email?.trim() ||
+            !password?.trim()
+        ){
             return res.json({
                 success: false, 
                 message: 'Missing Details'
             })
         }
 
+        const normalizedEmail = email.toLowerCase().trim(); // eta dile email ta case sensitive hobena
+
+        // Password validation
+        // string start : /^
+        // contain at least one digit : (?=.*\d)
+        // contain at least one special character : (?=.*[!@#$%^&*])
+        // contain at least 6 char length : .{6,}
+        // string end : $/
+        const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*]).{6,}$/;
+
+        if (!passwordRegex.test(password)) {
+            return res.json({
+                success: false,
+                message: "Password must be at least 6 characters long and contain at least one number and one special character"
+            });
+        }
+
         // individual user k find out korbe
-        const existingUser = await User.findOne({email})
+        const existingUser = await User.findOne({
+            email: normalizedEmail
+        });
 
         // user jodi already exist kore tahole notun kore user create na kore exist kore j ei msg show krbe
-        if(existingUser)
-            return res.json({success: false, message: 'User already exists'})
+        if (existingUser) {
+            return res.json({
+                success: false,
+                message: 'User already exists'
+            });
+        }
 
         // jodi user exist na kore tahole new user create korbe. ejonno j pass ta dibe eta encrypt korte hbe & db te store krbe
         const hashedPassword = await bcrypt.hash(password, 10)
 
         // create the user data
-        const user = await User.create({name, email, password: hashedPassword})
+        const user = await User.create({
+            name,
+            email: normalizedEmail,
+            password: hashedPassword
+        });
 
         // create a token to send response
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn:'7d'}) 
@@ -53,7 +84,7 @@ export const register = async (req, res)=>{
             })
     } catch (error) {
         console.log(error.message);
-        res.json({
+        return res.json({
             success: false, 
             message: error.message
         });
@@ -65,13 +96,22 @@ export const login = async (req, res)=>{
     try {
         const {email, password} = req.body;
 
-        if(!email || !password)
+        if (
+            !email?.trim() ||
+            !password?.trim()
+        ) {
             return res.json({
-                    success: false, 
-                    message: 'Email and password required'
-                });
+                success: false,
+                message: "Email and password required"
+            });
+        }
 
-        const user = await User.findOne({email});
+        const normalizedEmail = email.toLowerCase().trim();
+
+        const user = await User.findOne({
+            email: normalizedEmail
+        });
+        
 
         if(!user){
             return res.json({
@@ -80,7 +120,7 @@ export const login = async (req, res)=>{
             );
         }
 
-        const isMatch = await bcrypt.compare(password, user.password)
+        const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch)
             return res.json({
                 success: false, 
@@ -95,10 +135,8 @@ export const login = async (req, res)=>{
             secure: process.env.NODE_ENV === 'production', 
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000, 
-
-
-            // send the response to frontend user
         })
+            // send the response to frontend user
             return res.json({
                 success: true, 
                 user: {
@@ -108,7 +146,7 @@ export const login = async (req, res)=>{
             })
     } catch (error) {
         console.log(error.message);
-        res.json({
+        return res.json({
             success: false, 
             message: error.message
         });
@@ -121,17 +159,26 @@ export const isAuth = async (req, res)=>{
         const userId = req.userId;
 
         // find the user from database and remove the password data
-        const user = await User.findById(userId).select("-password")
-        return res.json({
-                success: true, 
-                user
-            })
+        const user = await User.findById(userId).select("-password");
 
-            
+        // user database e na thakle
+        if (!user) {
+            return res.json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        return res.json({
+            success: true,
+            user
+        });
+
     } catch (error) {
         console.log(error.message);
-        res.json({
-            success: false, 
+
+        return res.json({
+            success: false,
             message: error.message
         });
     }
@@ -155,7 +202,7 @@ export const logout = async (req, res)=>{
 
     } catch (error) {
         console.log(error.message);
-        res.json({
+        return res.json({
             success: false, 
             message: error.message
         });

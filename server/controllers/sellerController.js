@@ -5,10 +5,26 @@ export const sellerLogin = async (req, res)=>{
     try {
         const {email, password} = req.body;
 
-        if(password === process.env.SELLER_PASSWORD && email=== process.env.SELLER_EMAIL){
+        if (!email?.trim() || !password?.trim()) {
+            return res.json({
+                success: false,
+                message: "Email and password required"
+            });
+        }
+
+        const normalizedEmail = email.toLowerCase().trim();
+
+        if (
+            password === process.env.SELLER_PASSWORD &&
+            normalizedEmail === process.env.SELLER_EMAIL.toLowerCase()
+        ){
 
         // create a token to send response
-        const token = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn:'7d'}) 
+        const token = jwt.sign(
+            { email: normalizedEmail },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        ); 
 
         //set the token in the cookie & send the response to frontend user
         res.cookie('sellerToken', token, {
@@ -32,7 +48,7 @@ export const sellerLogin = async (req, res)=>{
 
     } catch (error) {
         console.log(error.message);
-        res.json({
+        return res.json({
             success: false, 
             message: error.message
         });
@@ -48,7 +64,7 @@ export const isSellerAuth = async (req, res)=>{
 
     } catch (error) {
         console.log(error.message);
-        res.json({
+        return res.json({
             success: false, 
             message: error.message
         });
@@ -73,7 +89,7 @@ export const sellerLogout = async (req, res)=>{
 
     } catch (error) {
         console.log(error.message);
-        res.json({
+        return res.json({
             success: false, 
             message: error.message
         });
