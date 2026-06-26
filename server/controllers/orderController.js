@@ -5,7 +5,8 @@ import Product from "../models/product.js";
 // place order COD : /api/order/cod
 export const placeOrderCOD = async (req, res)=>{
     try {
-        const { userId, items, address } = req.body;
+        const userId = req.userId;
+        const { items, address } = req.body;
 
         // check if address is available or not
         if(!address){
@@ -59,7 +60,8 @@ export const placeOrderCOD = async (req, res)=>{
             amount,
             address,
             paymentType: "COD",
-            isPaid: false
+            isPaid: false,
+            status: "Order Placed"
         });
 
         // return the response
@@ -70,6 +72,52 @@ export const placeOrderCOD = async (req, res)=>{
 
     } catch (error) {
         console.log(error.message);
+        return res.json({
+            success: false, 
+            message: error.message
+        })
+    }
+}
+
+// Get orders by userId : /api/order/user
+export const getUserOrders = async (req, res) => {
+    try {
+        const userId = req.userId;
+
+        const orders = await Order.find({ userId })
+        .populate("items.product")
+        .populate("address")
+        .sort({ createdAt: -1 });
+
+        // return the response
+        return res.json({
+            success: true, 
+            orders
+        });
+
+    } catch (error) {
+        return res.json({
+            success: false, 
+            message: error.message
+        })
+    }
+}
+
+// Get all orders (for seller / admin) : /api/order/seller
+export const getAllOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({})
+            .populate("items.product")
+            .populate("address")
+            .sort({ createdAt: -1 });
+
+        // return the response
+        return res.json({
+            success: true, 
+            orders
+        });
+
+    } catch (error) {
         return res.json({
             success: false, 
             message: error.message
