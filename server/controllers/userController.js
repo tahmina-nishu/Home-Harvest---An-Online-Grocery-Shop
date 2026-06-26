@@ -128,13 +128,13 @@ export const login = async (req, res)=>{
             });
 
         // create a token to send response
-        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn:'7d'}) 
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn:'90d'}) 
 
         res.cookie('token', token, {
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production', 
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000, 
+            maxAge: 90 * 24 * 60 * 60 * 1000, 
         })
             // send the response to frontend user
             return res.json({

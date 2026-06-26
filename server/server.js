@@ -1,7 +1,7 @@
+import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import cors from 'cors';
-import 'dotenv/config';
 
 // import configs
 import connectDB from "./configs/db.js";
@@ -19,7 +19,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 // Allow multiple origins
-const allowedOrigins = ['http://localhost:5173'] // ekhane 1 tar beshi link o add kora jabe jeta te backend run hobe
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'] // ekhane 1 tar beshi link o add kora jabe jeta te backend run hobe
 
 // Middleware configuration
 app.use(express.json());

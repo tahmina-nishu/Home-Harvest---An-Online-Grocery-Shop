@@ -23,7 +23,7 @@ export const sellerLogin = async (req, res)=>{
         const token = jwt.sign(
             { email: normalizedEmail },
             process.env.JWT_SECRET,
-            { expiresIn: '7d' }
+            { expiresIn: '90d' }
         ); 
 
         //set the token in the cookie & send the response to frontend user
@@ -31,7 +31,7 @@ export const sellerLogin = async (req, res)=>{
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production', 
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000, 
+            maxAge: 90 * 24 * 60 * 60 * 1000, 
 
         })
             return res.json({
