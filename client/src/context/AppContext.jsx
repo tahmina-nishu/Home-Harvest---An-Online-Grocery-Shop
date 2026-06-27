@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -39,13 +38,19 @@ export const AppContextProvider = ({children})=>{
 
     // function for fetch products 
     const fetchProducts = async ()=>{
-        setProducts(dummyProducts)
-    }
+        try {
+            const {data} = await axios.get('/api/product/list')
 
-    useEffect(()=>{
-        fetchProducts()
-        fetchSeller()
-    },[])
+            // check the response
+            if(data.success){
+                setProducts(data.products)
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
 
     // function for add product in cart
     const addToCart = (itemId)=>{
@@ -100,13 +105,20 @@ export const AppContextProvider = ({children})=>{
         let totalAmount = 0;
         for(const item in cartItems){
             let itemInfo = products.find((product)=> product._id === item)
-            if(cartItems[item] > 0){
+            if(itemInfo && cartItems[item] > 0){
                 totalAmount += itemInfo.offerPrice * cartItems[item]
             }
         }
 
         return Math.floor(totalAmount *100)/100;  // decimal er por 2 digit rakhbo ejonno. orthat eta setprecision er kaj kore
     }
+
+
+    useEffect(()=>{
+        fetchSeller()
+        fetchProducts()
+    },[])
+
 
     const value = {
         navigate, 
@@ -127,6 +139,7 @@ export const AppContextProvider = ({children})=>{
         getCartCount,
         getCartAmount,
         axios,
+        fetchProducts,
         };
 
     return (

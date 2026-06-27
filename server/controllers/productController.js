@@ -48,6 +48,9 @@ export const addProduct = async (req, res)=>{
 // Get Product : /api/product/list
 export const productList = async (req, res)=>{
     try {
+        console.log("Fetching products...");
+        console.log("Mongo Ready State:", Product.db.readyState);
+        
         const products = await Product.find({})
 
         // send the response      
