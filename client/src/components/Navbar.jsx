@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import { useAppContext } from '../context/AppContext'
+import toast from 'react-hot-toast'
 
 
 const Navbar = () => {
@@ -15,20 +16,35 @@ const Navbar = () => {
         setSearchQuery, 
         searchQuery,
         getCartCount,
+        axios,
     } = useAppContext();
 
     // -------------------- Logout Function ------------------------
     const logout = async ()=>{
-        setUser(null);
-        navigate('/')
+        try {
+            const {data} = await axios.post('/api/user/logout')
+            if(data.success){
+                // logout success hole notification dekhabe
+                toast.success(data.message)
+
+                // tarpor user page theke ber hoye jabe r normal home page e chole jabe
+                setUser(null);
+                navigate('/')
+                setSearchQuery("");
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
     // ----------------- SearchQuery ---------------- 
-    useEffect(()=>{
-        if(searchQuery.length > 0){
-            navigate("/products")
+    useEffect(() => {
+        if (searchQuery.trim()) {
+            navigate("/products");
         }
-    },[searchQuery])
+    }, [searchQuery, navigate]);
 
     return (
         <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-100 shadow-md bg-white transition-all">
@@ -46,7 +62,10 @@ const Navbar = () => {
 
                 {/* ----- Search Bar START------  */}
                 <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
-                    <input onChange={(e)=> setSearchQuery(e.target.value)} className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
+                    <input
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10.836 10.615 15 14.695" stroke="#7A7B7D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
                         <path clip-rule="evenodd" d="M9.141 11.738c2.729-1.136 4.001-4.224 2.841-6.898S7.67.921 4.942 2.057C2.211 3.193.94 6.281 2.1 8.955s4.312 3.92 7.041 2.783" stroke="#7A7B7D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
@@ -72,7 +91,7 @@ const Navbar = () => {
                         <div className='relative group'>
                             <img src={assets.profile} className='bg-primary/15 rounded-full w-9' alt="" />
                             <ul className='hidden group-hover:block absolute top-9 right-0 bg-white shadow border border-gray-200 p-2.5 w-32 rounded-md text-sm z-40'>
-                                <li onClick={()=> navigate("my-orders")} className='p-1 pl-3 hover:bg-primary/10 cursor-pointer'>My Orders</li>
+                                <li onClick={()=> navigate("/my-orders")} className='p-1 pl-3 hover:bg-primary/10 cursor-pointer'>My Orders</li>
                                 <li onClick={logout} className='p-1 pl-3 hover:bg-primary/10 cursor-pointer'>Logout</li>
                             </ul>
                         </div>
@@ -119,7 +138,7 @@ const Navbar = () => {
                     <NavLink to='/' onClick={()=> setOpen(false)}>Home</NavLink>
                     <NavLink to='/products' onClick={()=> setOpen(false)}>All Product</NavLink>
                     {user &&
-                    <NavLink to='/about' onClick={()=> setOpen(false)}>My Orders</NavLink>
+                    <NavLink to='/my-orders' onClick={()=> setOpen(false)}>My Orders</NavLink>
                     }
                     <NavLink to='/contact' onClick={()=> setOpen(false)}>Contact</NavLink>
 
@@ -132,7 +151,12 @@ const Navbar = () => {
                         Login
                         </button>
                     ) : (
-                        <button onClick={logout} className="cursor-pointer px-6 py-2 mt-2 bg-primary hover:bg-primary transition text-white rounded-full text-sm">
+                        <button 
+                            onClick={() => {
+                                setOpen(false);
+                                logout();
+                            }}
+                            className="cursor-pointer px-6 py-2 mt-2 bg-primary hover:bg-primary transition text-white rounded-full text-sm">
                         Logout
                         </button>
                     )}
