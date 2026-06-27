@@ -1,22 +1,56 @@
 import React, { useState } from 'react'
 import {useAppContext} from '../context/AppContext'
+import toast from 'react-hot-toast';
 const Login = () => {
 
-    const {setShowUserLogin, setUser} = useAppContext()
+    const {setShowUserLogin, setUser, axios, navigate} = useAppContext()
 
     const [state, setState] = useState("login");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const onSubmitHandler = async (event)=>{
-        event.preventDefault();     // page reload ta prevent kore eta
-        setUser({
-            email: "akthertahmina572@gmail.com",
-            name : "Tahmina"
-        })
+        try {
+            event.preventDefault();     // page reload ta prevent kore eta
 
-        setShowUserLogin(false)
+            setLoading(true);
+            
+            //api call
+            const {data} = await axios.post(`/api/user/${state}`, {
+                name,
+                email,
+                password
+            });
+
+            if(data.success){
+                toast.success(
+                    state === "login"
+                        ? "Login Successful"
+                        : "Account Created Successfully"
+                );
+
+                setUser(data.user);
+
+                // login hoye gele form khali hoye jabe
+                setName("");
+                setEmail("");
+                setPassword("");
+
+                setShowUserLogin(false);
+                navigate('/')
+            }else{
+                toast.error(data.message);
+            }
+
+        } catch (error) {
+            toast.error(error.message);
+        }  
+        
+        finally{
+            setLoading(false);
+        }
     }
 
     return (
@@ -32,12 +66,13 @@ const Login = () => {
                 {state === "register" && (
                     <div className="w-full">
                         <p>Name</p>
-                        <input onChange={(e) => setName(e.target.value)} value={name} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary" type="text" required />
+                        <input disabled={loading} onChange={(e) => setName(e.target.value)} value={name} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary" type="text" required />
                     </div>
                 )}
                 <div className="w-full ">
                     <p>Email</p>
                     <input 
+                        disabled={loading}
                         onChange={(e) => setEmail(e.target.value)} 
                         value={email} 
                         placeholder="Enter your email" 
@@ -48,6 +83,7 @@ const Login = () => {
                 <div className="w-full ">
                     <p>Password</p>
                     <input 
+                        disabled={loading}
                         onChange={(e) => setPassword(e.target.value)} 
                         value={password} 
                         placeholder="Enter your password" 
@@ -64,8 +100,22 @@ const Login = () => {
                         Create an account? <span onClick={() => setState("register")} className="text-primary cursor-pointer">click here</span>
                     </p>
                 )}
-                <button className="bg-primary hover:bg-primary-dull transition-all text-white w-full py-2 rounded-md cursor-pointer">
-                    {state === "register" ? "Create Account" : "Login"}
+                    <button
+                        disabled={loading}
+                        className={`w-full py-2 rounded-md text-white transition-all
+                        ${
+                            loading
+                                ? "bg-primary opacity-70 cursor-not-allowed"
+                                : "bg-primary hover:bg-primary-dull cursor-pointer"
+                        }`}
+                    >
+                    {
+                        loading
+                            ? "Please wait..."
+                            : state === "register"
+                                ? "Create Account"
+                                : "Login"
+                    }
                 </button>
             </form>
         </div>
