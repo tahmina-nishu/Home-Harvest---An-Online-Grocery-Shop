@@ -28,9 +28,10 @@ const orderSchema = new mongoose.Schema({
         required:true
     },
 
-    address:{
-        type:Object,
-        required:true
+    address: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "address",
+        required: true
     },
 
     status:{
