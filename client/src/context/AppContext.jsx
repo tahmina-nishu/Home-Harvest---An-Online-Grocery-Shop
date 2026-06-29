@@ -132,9 +132,9 @@ export const AppContextProvider = ({children})=>{
 
 
     useEffect(()=>{
+        fetchProducts()
         fetchUser()
         fetchSeller()
-        fetchProducts()
     },[])
 
     // Update database cart items

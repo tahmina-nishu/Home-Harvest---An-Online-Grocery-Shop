@@ -14,22 +14,34 @@ const ProductDetails = () => {
     const product = products.find((item)=> item._id === _id);
 
     // similar type er (same category er) item gulo k copy hisebe filter kora hoiche 
-    useEffect(()=>{
-        if(products.length > 0){
-            let productsCopy = products.slice();
-            productsCopy = productsCopy.filter((item)=> product.category === item.category &&
-        item._id !== product._id)
+    useEffect(() => {
 
-            setRelatedProducts(productsCopy.slice(0,5))
-        }
-    }, [products])
+        if (!product) return;
+
+        const productsCopy = products.filter(
+            item =>
+                item.category === product.category &&
+                item._id !== product._id
+        );
+
+        setRelatedProducts(productsCopy.slice(0, 5));
+
+    }, [product, products]);
 
     // product er thumbnail set 
     useEffect(()=>{
         setThumbnail(product?.image[0] ? product.image[0] : null)
     }, [product])
 
-    return product && (
+
+    if (!product) {
+        return (
+            <div className="mt-32 text-center">
+                Loading...
+            </div>
+        );
+    }
+    return (
         <div className="max-w-6xl w-full px-6 mt-29">
             <p>
                 <Link to={"/"}>Home</Link> /

@@ -61,16 +61,16 @@ export const register = async (req, res)=>{
         });
 
         // create a token to send response
-        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn:'7d'}) 
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn:'365d'}) 
         // _id ta db te auto create hoye jay jokhn ekta new user create hoy
-        // r j token ta dibe eta 7 days por expired hoye jabe
+        // r j token ta dibe eta 365 days por expired hoye jabe
         // token ta response e pathabe
 
         res.cookie('token', token, {
             httpOnly: true, // prevent javascript to access cookie
             secure: process.env.NODE_ENV === 'production', // use secure cookies in production
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', // CSRF protection
-            maxAge: 7 * 24 * 60 * 60 * 1000, // cookie expiration time mili second e 
+            maxAge: 365 * 24 * 60 * 60 * 1000, // cookie expiration time mili second e 
 
 
             // send the response to frontend user

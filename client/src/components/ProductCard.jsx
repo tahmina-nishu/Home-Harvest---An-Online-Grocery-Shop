@@ -15,13 +15,14 @@ const ProductCard = ({ product }) => {
     return product && (
 
         // ------- ekhane onClick ta individual product er details er jonno ---------
-        <div onClick={()=> {navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)}} className="border border-primary/50 rounded-xl md:px-4 px-3 py-3 bg-white w-full shadow-sm hover:shadow-md transition">
+        <div onClick={() => {
+                navigate(`/products/${product.category.toLowerCase()}/${product._id}`);
+                window.scrollTo(0, 0);
+            }}
+            className="border border-primary/50 rounded-xl md:px-4 px-3 py-3 bg-white w-full shadow-sm hover:shadow-md transition">
 
             {/* product image */}
-            <div
-                onClick={() => navigate(`/products/${product.category.toLowerCase()}/${product._id}`)}
-                className="group cursor-pointer flex items-center justify-center px-2"
-            >
+            <div className="group cursor-pointer flex items-center justify-center px-2" >
                 <img
                     className="group-hover:scale-105 transition duration-300 w-46 h-36 object-cover mb-2 mt-2"
                     src={product.image[0]}

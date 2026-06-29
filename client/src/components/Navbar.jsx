@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import { useAppContext } from '../context/AppContext'
 import toast from 'react-hot-toast'
@@ -19,6 +19,8 @@ const Navbar = () => {
         axios,
     } = useAppContext();
 
+    const location = useLocation();
+
     // -------------------- Logout Function ------------------------
     const logout = async ()=>{
         try {
@@ -29,8 +31,8 @@ const Navbar = () => {
 
                 // tarpor user page theke ber hoye jabe r normal home page e chole jabe
                 setUser(null);
-                navigate('/')
                 setSearchQuery("");
+                navigate('/')
             }else{
                 toast.error(data.message)
             }
@@ -41,24 +43,47 @@ const Navbar = () => {
 
     // ----------------- SearchQuery ---------------- 
     useEffect(() => {
-        if (searchQuery.trim()) {
+        if (searchQuery.trim() && location.pathname === "/") {
             navigate("/products");
         }
-    }, [searchQuery, navigate]);
+    }, [searchQuery]);
 
     return (
         <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-100 shadow-md bg-white transition-all">
 
-            <NavLink to='/' onClick={()=> setOpen(false)}>
+            <NavLink to='/' onClick={()=> {
+                setSearchQuery("");
+                setOpen(false);
+            }}>
                 <img className='h-12' src={assets.logo} alt="logo" />
             </NavLink>
 
             {/* Desktop Menu */}
             <div className="hidden sm:flex items-center gap-8">
-                <NavLink className={({ isActive }) => `nav-link ${isActive ? "active-link" : ""}`} to='/'>Home</NavLink>
-                <NavLink className={({ isActive }) => `nav-link ${isActive ? "active-link" : ""}`} to='/products'>All Product</NavLink>
-                <NavLink className={({ isActive }) => `nav-link ${isActive ? "active-link" : ""}`} to='/about'>About</NavLink>
-                <NavLink className={({ isActive }) => `nav-link ${isActive ? "active-link" : ""}`} to='/contact'>Contact</NavLink>
+
+                <NavLink className={({ isActive }) => `nav-link ${isActive ? "active-link" : ""}`} to='/' onClick={()=> {
+                    setSearchQuery("");
+                    setOpen(false);
+                }}>
+                Home</NavLink>
+
+                <NavLink className={({ isActive }) => `nav-link ${isActive ? "active-link" : ""}`} to='/products' onClick={()=> {
+                    setSearchQuery("");
+                    setOpen(false);
+                }}>
+                All Product</NavLink>
+                
+                <NavLink className={({ isActive }) => `nav-link ${isActive ? "active-link" : ""}`} to='/about' onClick={()=> {
+                    setSearchQuery("");
+                    setOpen(false);
+                }}>
+                About</NavLink>
+
+                <NavLink className={({ isActive }) => `nav-link ${isActive ? "active-link" : ""}`} to='/contact' onClick={()=> {
+                    setSearchQuery("");
+                    setOpen(false);
+                }}>
+                Contact</NavLink>
 
                 {/* ----- Search Bar START------  */}
                 <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
@@ -74,7 +99,10 @@ const Navbar = () => {
                 {/* ----- Search Bar END------  */}
 
                 {/* ----- Cart icon START------  */}
-                <div onClick={()=> navigate("/cart")} className="relative cursor-pointer">
+                <div onClick={()=> {
+                    setSearchQuery("");
+                    navigate("/cart")
+                }} className="relative cursor-pointer">
                     <svg width="28" height="28" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M.583.583h2.333l1.564 7.81a1.17 1.17 0 0 0 1.166.94h5.67a1.17 1.17 0 0 0 1.167-.94l.933-4.893H3.5m2.333 8.75a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0m6.417 0a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0" stroke="#2d753c" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
@@ -91,7 +119,10 @@ const Navbar = () => {
                         <div className='relative group'>
                             <img src={assets.profile} className='bg-primary/15 rounded-full w-9' alt="" />
                             <ul className='hidden group-hover:block absolute top-9 right-0 bg-white shadow border border-gray-200 p-2.5 w-32 rounded-md text-sm z-40'>
-                                <li onClick={()=> navigate("/my-orders")} className='p-1 pl-3 hover:bg-primary/10 cursor-pointer'>My Orders</li>
+                                <li onClick={()=> {
+                                    setSearchQuery("");
+                                    navigate("/my-orders")
+                                }} className='p-1 pl-3 hover:bg-primary/10 cursor-pointer'>My Orders</li>
                                 <li onClick={logout} className='p-1 pl-3 hover:bg-primary/10 cursor-pointer'>Logout</li>
                             </ul>
                         </div>
@@ -103,7 +134,11 @@ const Navbar = () => {
             <div className="flex items-center gap-6 sm:hidden">
 
                 {/* Cart Icon */}
-                <div onClick={() => navigate("/cart")} className="relative cursor-pointer">
+                <div onClick={() => {
+                    setSearchQuery("");
+                    navigate("/cart")
+                }}  
+                className="relative cursor-pointer">
                     <svg width="28" height="28" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M.583.583h2.333l1.564 7.81a1.17 1.17 0 0 0 1.166.94h5.67a1.17 1.17 0 0 0 1.167-.94l.933-4.893H3.5m2.333 8.75a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0m6.417 0a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0"
@@ -135,15 +170,35 @@ const Navbar = () => {
             {/* Mobile Menu */}
             {  open && (
                 <div className={`${open ? 'flex' : 'hidden'} absolute top-15 left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}>
-                    <NavLink to='/' onClick={()=> setOpen(false)}>Home</NavLink>
-                    <NavLink to='/products' onClick={()=> setOpen(false)}>All Product</NavLink>
+                    <NavLink to='/' onClick={()=> {
+                        setSearchQuery("");
+                        setOpen(false)
+                    }}>
+                    Home</NavLink>
+
+                    <NavLink to='/products' onClick={()=> {
+                        setSearchQuery("");
+                        setOpen(false)
+                    }}>
+                    All Product</NavLink>
+
                     {user &&
-                    <NavLink to='/my-orders' onClick={()=> setOpen(false)}>My Orders</NavLink>
+                    <NavLink to='/my-orders' onClick={()=> {
+                        setSearchQuery("");
+                        setOpen(false)
+                    }}>
+                    My Orders</NavLink>
+
                     }
-                    <NavLink to='/contact' onClick={()=> setOpen(false)}>Contact</NavLink>
+                    <NavLink to='/contact' onClick={()=> {
+                        setSearchQuery("");
+                        setOpen(false)
+                    }}>
+                    Contact</NavLink>
 
                     {!user ? (
                         <button  onClick={()=> {
+                            setSearchQuery("");
                             setOpen(false);
                             setShowUserLogin(true);
                             }} 
@@ -153,6 +208,7 @@ const Navbar = () => {
                     ) : (
                         <button 
                             onClick={() => {
+                                setSearchQuery("");
                                 setOpen(false);
                                 logout();
                             }}
