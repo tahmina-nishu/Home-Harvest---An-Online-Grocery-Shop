@@ -5,7 +5,12 @@ import { dummyOrders } from '../assets/assets'
 const MyOrders = () => {
 
     const [myOrders, setMyOrders] = useState([])
-    const {currency, axios, user} = useAppContext()
+    const {
+        currency,
+        axios,
+        user,
+        navigate
+    } = useAppContext();
 
     // function for fetch my orders
     const fetchMyOrders = async ()=>{
@@ -69,10 +74,15 @@ const MyOrders = () => {
                             {/* amount  */}
                             <p className='text-lg text-primary font-medium'>
                                 Amount: {currency}{item.product.offerPrice * item.quantity}
-                            </p>
+                            </p>                         
                         </div>
                     ))}
                     {/* show individual orders details END  */}
+                    <button
+                        onClick={() => navigate(`/invoice/${order._id}`)}
+                        className="mt-3 px-5 py-2 bg-primary text-white rounded hover:bg-primary-dull transition">
+                    View Invoice
+                    </button>   
                 </div>
             ))}
             {/* Order cards END */}

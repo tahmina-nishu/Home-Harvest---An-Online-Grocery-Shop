@@ -47,7 +47,12 @@ const orderSchema = new mongoose.Schema({
     isPaid:{
         type:Boolean,
         default:false
-    }
+    },
+
+    invoiceNumber: {
+        type: String,
+        unique: true
+    },
 
 },{timestamps:true});
 

@@ -17,6 +17,7 @@ import SellerLayout from './pages/seller/SellerLayout';
 import AddProduct from './pages/seller/AddProduct';
 import ProductList from './pages/seller/ProductList';
 import Orders from './pages/seller/Orders';
+import Invoice from "./pages/Invoice";
 
 
 const App = () => {
@@ -54,6 +55,9 @@ const App = () => {
           
           {/* My orders page Route  */}
           <Route path='/my-orders' element={<MyOrders />} />
+
+          {/* Invoice Route  */}
+          <Route path="/invoice/:orderId" element={<Invoice />} />
 
           {/* Seller layout Route  */}
           <Route path='/seller' element={isSeller ? <SellerLayout/> : <SellerLogin />}>

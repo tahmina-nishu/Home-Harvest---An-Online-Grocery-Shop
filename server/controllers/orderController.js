@@ -53,12 +53,16 @@ export const placeOrderCOD = async (req, res)=>{
         // Add 2% tax
         amount += Math.floor(amount * 0.02);
 
+        // generate invoice number 
+        const invoiceNumber = "INV-" + Date.now().toString().slice(-6);
+
         // Create order
         await Order.create({
             userId,
             items,
             amount,
             address,
+            invoiceNumber,
             paymentType: "COD",
             isPaid: false,
             status: "Order Placed"
@@ -76,6 +80,36 @@ export const placeOrderCOD = async (req, res)=>{
             success: false, 
             message: error.message
         })
+    }
+}
+
+// Get Invoice : /api/order/invoice/:orderId
+export const getInvoice = async (req, res) => {
+    try {
+
+        const { orderId } = req.params;
+
+        const order = await Order.findById(orderId)
+            .populate("items.product")
+            .populate("address");
+
+        if (!order) {
+            return res.json({
+                success: false,
+                message: "Order not found"
+            });
+        }
+
+        return res.json({
+            success: true,
+            order
+        });
+
+    } catch (error) {
+        return res.json({
+            success: false,
+            message: error.message
+        });
     }
 }
 
