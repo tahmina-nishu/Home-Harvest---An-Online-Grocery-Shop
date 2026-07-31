@@ -30,6 +30,31 @@ const MyOrders = () => {
         }
     },[user])
 
+    // For tracking
+    const trackingSteps = [
+        "Order Placed",
+        "Order Confirmed",
+        "Packed",
+        "Out for Delivery",
+        "Delivered"
+    ];
+
+    // Date format
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+        });
+    };    
+
+    // Estimated delivery date
+    const getEstimatedDelivery = (createdAt) => {
+        const deliveryDate = new Date(createdAt);
+        deliveryDate.setDate(deliveryDate.getDate() + 2);
+        return deliveryDate;
+    };
+
     return (
         <div className="mt-29 pb-16">
             {/* title div START  */}
@@ -67,8 +92,6 @@ const MyOrders = () => {
                             {/* status & quantity div  */}
                             <div className='flex flex-col justify-center md:ml-8 mb-4 md:mb-0'>
                                 <p>Quantity: {item.quantity || "1"}</p>
-                                <p>Status: {order.status}</p>
-                                <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
                             </div>
 
                             {/* amount  */}
@@ -77,7 +100,74 @@ const MyOrders = () => {
                             </p>                         
                         </div>
                     ))}
-                    {/* show individual orders details END  */}
+
+                            {/* show individual orders details END  */}
+
+                            <div className="mt-5 border-t pt-4">
+
+                                <p className="font-medium">
+                                    Current Status:
+                                    <span className="text-primary ml-2">
+                                        {order.status}
+                                    </span>
+                                </p>
+
+                                <div className="mt-3 space-y-2">
+
+                                    {trackingSteps.map((step, i) => (
+
+                                        <div key={i} className="flex items-center gap-3">
+
+                                            <div className="w-5 flex justify-center">
+
+                                                {(i < order.currentStep || (order.status === "Delivered" && i === order.currentStep)) ? (
+
+                                                    <span className="text-green-600 text-lg font-bold">
+                                                        ✔
+                                                    </span>
+
+                                                ) : i === order.currentStep ? (
+
+                                                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+
+                                                ) : (
+
+                                                    <div className="w-3 h-3 rounded-full bg-gray-300"></div>
+
+                                                )}
+
+                                            </div>
+
+                                            <p
+                                                className={`${
+                                                    i <= order.currentStep
+                                                        ? "text-gray-800 font-medium"
+                                                        : "text-gray-400"
+                                                }`}
+                                            >
+                                                {step}
+                                            </p>
+
+                                        </div>
+
+                                    ))}
+
+                                </div>
+
+                                {/* ordered date */}
+                                <p className="mt-4 text-sm text-gray-500">
+                                    Order Date: {formatDate(order.createdAt)}
+                                </p>
+
+                                {/* Estimated delivery (show only before delivery) */}
+                                {order.status !== "Delivered" && (
+                                    <p className="mt-2 text-sm text-blue-700 font-medium">
+                                        Estimated Delivery: {formatDate(getEstimatedDelivery(order.createdAt))}
+                                    </p>
+                                )}                               
+
+                            </div>
+
                     <button
                         onClick={() => navigate(`/invoice/${order._id}`)}
                         className="mt-3 px-5 py-2 bg-primary text-white rounded hover:bg-primary-dull transition">

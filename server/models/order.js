@@ -54,6 +54,11 @@ const orderSchema = new mongoose.Schema({
         unique: true
     },
 
+    deliveredAt: {
+        type: Date,
+        default: null
+    },
+
 },{timestamps:true});
 
 const Order = mongoose.models.order || mongoose.model('order', orderSchema)

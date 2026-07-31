@@ -1,6 +1,44 @@
 import Order from "../models/order.js";
 import Product from "../models/product.js";
 
+// Auto tracking status (Steadfast style demo)
+const getTrackingStatus = (createdAt) => {
+
+    const minutes = (Date.now() - new Date(createdAt).getTime()) / 60000;
+
+    if (minutes < 1) {
+        return {
+            currentStatus: "Order Placed",
+            currentStep: 0
+        };
+    }
+
+    if (minutes < 2) {
+        return {
+            currentStatus: "Order Confirmed",
+            currentStep: 1
+        };
+    }
+
+    if (minutes < 3) {
+        return {
+            currentStatus: "Packed",
+            currentStep: 2
+        };
+    }
+
+    if (minutes < 4) {
+        return {
+            currentStatus: "Out for Delivery",
+            currentStep: 3
+        };
+    }
+
+    return {
+        currentStatus: "Delivered",
+        currentStep: 4
+    };
+};
 
 // place order COD : /api/order/cod
 export const placeOrderCOD = async (req, res)=>{
@@ -123,10 +161,21 @@ export const getUserOrders = async (req, res) => {
         .populate("address")
         .sort({ createdAt: -1 });
 
+        const updatedOrders = orders.map(order => {
+
+            const tracking = getTrackingStatus(order.createdAt);
+
+            return {
+                ...order.toObject(),
+                status: tracking.currentStatus,
+                currentStep: tracking.currentStep
+            };
+        });
+
         // return the response
         return res.json({
             success: true, 
-            orders
+            orders: updatedOrders
         });
 
     } catch (error) {
@@ -145,10 +194,21 @@ export const getAllOrders = async (req, res) => {
             .populate("address")
             .sort({ createdAt: -1 });
 
+        const updatedOrders = orders.map(order => {
+
+            const tracking = getTrackingStatus(order.createdAt);
+
+            return {
+                ...order.toObject(),
+                status: tracking.currentStatus,
+                currentStep: tracking.currentStep
+            };
+        });
+
         // return the response
         return res.json({
             success: true, 
-            orders
+            orders: updatedOrders
         });
 
     } catch (error) {
