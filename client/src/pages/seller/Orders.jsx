@@ -9,6 +9,14 @@ const Orders = () => {
     const {currency, axios} = useAppContext(); 
     const [orders, setOrders] = useState([])
 
+    const orderStatuses = [
+        "Order Placed",
+        "Order Confirmed",
+        "Packed",
+        "Out for Delivery",
+        "Delivered"
+    ];
+
     //function for fetch the orders
     const fetchOrders = async ()=>{
         try {
@@ -23,6 +31,27 @@ const Orders = () => {
             toast.error(error.message)
         }
     }
+
+    // order status update
+    const updateStatus = async (orderId, status) => {
+        try {
+
+            const { data } = await axios.put(
+                `/api/order/status/${orderId}`,
+                { status }
+            );
+
+            if (data.success) {
+                toast.success("Order status updated");
+                fetchOrders();
+            } else {
+                toast.error(data.message);
+            }
+
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
 
     useEffect(()=>{
         fetchOrders();
@@ -67,6 +96,24 @@ const Orders = () => {
                             <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
                             <p>Payment: {order.isPaid ? "Paid" : "Pending"}</p>
                         </div>
+
+                        {/* Update status part */}
+                        <div className="flex flex-col gap-2">
+
+                            <select
+                                value={order.status}
+                                onChange={(e) => updateStatus(order._id, e.target.value)}
+                                className="border rounded px-3 py-2"
+                            >
+                                {orderStatuses.map((status) => (
+                                    <option key={status} value={status}>
+                                        {status}
+                                    </option>
+                                ))}
+                            </select>
+
+                        </div>
+
                     </div>
                 ))}
             </div>

@@ -1,44 +1,7 @@
 import Order from "../models/order.js";
 import Product from "../models/product.js";
 
-// Auto tracking status (Steadfast style demo)
-const getTrackingStatus = (createdAt) => {
 
-    const minutes = (Date.now() - new Date(createdAt).getTime()) / 60000;
-
-    if (minutes < 1) {
-        return {
-            currentStatus: "Order Placed",
-            currentStep: 0
-        };
-    }
-
-    if (minutes < 2) {
-        return {
-            currentStatus: "Order Confirmed",
-            currentStep: 1
-        };
-    }
-
-    if (minutes < 3) {
-        return {
-            currentStatus: "Packed",
-            currentStep: 2
-        };
-    }
-
-    if (minutes < 4) {
-        return {
-            currentStatus: "Out for Delivery",
-            currentStep: 3
-        };
-    }
-
-    return {
-        currentStatus: "Delivered",
-        currentStep: 4
-    };
-};
 
 // place order COD : /api/order/cod
 export const placeOrderCOD = async (req, res)=>{
@@ -161,16 +124,18 @@ export const getUserOrders = async (req, res) => {
         .populate("address")
         .sort({ createdAt: -1 });
 
-        const updatedOrders = orders.map(order => {
+        const trackingSteps = [
+            "Order Placed",
+            "Order Confirmed",
+            "Packed",
+            "Out for Delivery",
+            "Delivered"
+        ];
 
-            const tracking = getTrackingStatus(order.createdAt);
-
-            return {
-                ...order.toObject(),
-                status: tracking.currentStatus,
-                currentStep: tracking.currentStep
-            };
-        });
+        const updatedOrders = orders.map(order => ({
+            ...order.toObject(),
+            currentStep: trackingSteps.indexOf(order.status)
+        }));
 
         // return the response
         return res.json({
@@ -189,32 +154,72 @@ export const getUserOrders = async (req, res) => {
 // Get all orders (for seller / admin) : /api/order/seller
 export const getAllOrders = async (req, res) => {
     try {
+
         const orders = await Order.find({})
             .populate("items.product")
             .populate("address")
             .sort({ createdAt: -1 });
 
-        const updatedOrders = orders.map(order => {
+        const trackingSteps = [
+            "Order Placed",
+            "Order Confirmed",
+            "Packed",
+            "Out for Delivery",
+            "Delivered"
+        ];
 
-            const tracking = getTrackingStatus(order.createdAt);
+        const updatedOrders = orders.map(order => ({
+            ...order.toObject(),
+            currentStep: trackingSteps.indexOf(order.status)
+        }));
 
-            return {
-                ...order.toObject(),
-                status: tracking.currentStatus,
-                currentStep: tracking.currentStep
-            };
-        });
-
-        // return the response
         return res.json({
-            success: true, 
+            success: true,
             orders: updatedOrders
         });
 
     } catch (error) {
         return res.json({
-            success: false, 
+            success: false,
             message: error.message
-        })
+        });
     }
-}
+};
+
+// Update Order Status : /api/order/status/:orderId
+export const updateOrderStatus = async (req, res) => {
+    try {
+
+        const { orderId } = req.params;
+        const { status } = req.body;
+
+        const order = await Order.findById(orderId);
+
+        if (!order) {
+            return res.json({
+                success: false,
+                message: "Order not found"
+            });
+        }
+
+        order.status = status;
+
+        // Save delivery date when delivered
+        if (status === "Delivered" && !order.deliveredAt) {
+            order.deliveredAt = new Date();
+        }
+
+        await order.save();
+
+        return res.json({
+            success: true,
+            message: "Order status updated successfully"
+        });
+
+    } catch (error) {
+        return res.json({
+            success: false,
+            message: error.message
+        });
+    }
+};

@@ -161,7 +161,7 @@ const MyOrders = () => {
 
                                 {/* Estimated delivery (show only before delivery) */}
                                 {order.status !== "Delivered" && (
-                                    <p className="mt-2 text-sm text-blue-700 font-medium">
+                                    <p className="mt-2 text-md text-primary font-medium">
                                         Estimated Delivery: {formatDate(getEstimatedDelivery(order.createdAt))}
                                     </p>
                                 )}                               
