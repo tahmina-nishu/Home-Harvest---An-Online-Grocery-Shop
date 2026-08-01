@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useAppContext } from "../context/AppContext";
 
 const ProductCard = ({ product }) => {
@@ -7,9 +7,17 @@ const ProductCard = ({ product }) => {
         currency,
         addToCart,
         removeFromCart,
+        updateCartItem,
         cartItems,
         navigate,
     } = useAppContext();
+
+    // quantity likhe change korar jonno (backspace diye kete j kono nmbr likha jabe)
+    const [qty, setQty] = useState(cartItems[product._id] || 1);
+
+    useEffect(() => {
+        setQty(cartItems[product._id] || 1);
+    }, [cartItems, product._id]);    
 
     // product available hole eta show korbe
     return product && (
@@ -95,34 +103,22 @@ const ProductCard = ({ product }) => {
                         onClick={(e) => e.stopPropagation()}
                         className="w-full"
                     >
+                        
+                    {/* Add to cart button  */}
+                    {product.stock > 0 ? (
 
-                        {!cartItems[product._id] ? (
+                        !cartItems[product._id] ? (
 
                             <button
                                 className="flex items-center justify-center gap-2 bg-primary/10 border border-primary w-full h-9 rounded-lg text-primary font-medium cursor-pointer hover:bg-primary/15 transition"
                                 onClick={() => addToCart(product._id)}
                             >
-                                <svg
-                                    width="22"
-                                    height="22"
-                                    viewBox="0 0 14 14"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M.583.583h2.333l1.564 7.81a1.17 1.17 0 0 0 1.166.94h5.67a1.17 1.17 0 0 0 1.167-.94l.933-4.893H3.5m2.333 8.75a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0m6.417 0a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0"
-                                        stroke="#2d753c"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-
-                                Add to cart
+                                Add to Cart
                             </button>
 
                         ) : (
 
-                            <div className="flex items-center justify-between px-2 w-full h-9 bg-primary/15 text-primary rounded-lg select-none">
+                            <div className="flex items-center justify-between px-2 w-full h-9 bg-primary/15 text-primary rounded-lg">
 
                                 <button
                                     onClick={() => removeFromCart(product._id)}
@@ -131,9 +127,64 @@ const ProductCard = ({ product }) => {
                                     -
                                 </button>
 
-                                <span className="w-5 text-center font-medium">
-                                    {cartItems[product._id]}
-                                </span>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={qty}
+                                    onClick={(e) => e.stopPropagation()}
+                                    onChange={(e) => {
+
+                                        const value = e.target.value;
+
+
+                                        // backspace allow
+                                        if(value === ""){
+
+                                            setQty("");
+
+                                            return;
+                                        }
+
+
+                                        const quantity = Number(value);
+
+
+                                        if(quantity < 1){
+                                            return;
+                                        }
+
+
+                                        const updated = updateCartItem(
+                                            product._id,
+                                            quantity
+                                        );
+
+
+                                        if(updated){
+
+                                            // update successful হলে input change হবে
+                                            setQty(quantity);
+
+                                        }
+                                        else{
+
+                                            // stock বেশি হলে আগের quantity থাকবে
+                                            setQty(cartItems[product._id]);
+
+                                        }
+
+                                    }}
+                                    onBlur={() => {
+                                        let quantity = Number(qty);
+
+                                        if (!quantity || quantity < 1) {
+                                            quantity = 1;
+                                        }
+
+                                        updateCartItem(product._id, quantity);
+                                    }}
+                                    className="w-14 h-7 text-center border rounded outline-none bg-white"
+                                />
 
                                 <button
                                     onClick={() => addToCart(product._id)}
@@ -143,7 +194,19 @@ const ProductCard = ({ product }) => {
                                 </button>
 
                             </div>
-                        )}
+
+                        )
+
+                    ) : (
+
+                    <button
+                        disabled
+                        className="w-full h-9 rounded-lg bg-red-100 border border-red-300 text-red-600 font-medium cursor-not-allowed opacity-80"
+                    >
+                        Out of Stock
+                    </button>
+
+                    )}
 
                     </div>
                 </div>

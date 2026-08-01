@@ -70,27 +70,48 @@ export const AppContextProvider = ({children})=>{
     }
 
     // function for add product in cart
-    const addToCart = (itemId)=>{
+    const addToCart = (itemId) => {
+
+        // যে product add করা হচ্ছে সেটা বের করো
+        const product = products.find(item => item._id === itemId);
+
+        if (!product) return;
+
         let cartData = structuredClone(cartItems);
 
-        if(cartData[itemId]) {
-            cartData[itemId] += 1;
+        const currentQuantity = cartData[itemId] || 0;
+
+        // Stock limit check
+        if (currentQuantity >= product.stock) {
+            toast.error(`Only ${product.stock} item(s) available in stock`);
+            return;
         }
-        else {
-            cartData[itemId] = 1
-        }
+
+        cartData[itemId] = currentQuantity + 1;
+
         setCartItems(cartData);
-        toast.success("Added to cart successfully")
+        toast.success("Added to cart successfully");
     }
 
     // function for update data in cart
-    const updateCartItem = (itemId, quantity)=>{
+    const updateCartItem = (itemId, quantity) => {
+
+        const product = products.find((item) => item._id === itemId);
+
+        if (!product) return;
+
+        if (quantity > product.stock) {
+            toast.error(`Only ${product.stock} item(s) available in stock`);
+            return false;
+        }
+
         let cartData = structuredClone(cartItems);
 
         cartData[itemId] = quantity;
-        
+
         setCartItems(cartData);
-        toast.success("Cart updated successfully")
+
+        return true;
     }
 
     // function for remove product from cart
@@ -107,14 +128,23 @@ export const AppContextProvider = ({children})=>{
         setCartItems(cartData);
     } 
 
-    // function to count cart items
-    const getCartCount = ()=>{
-        let totalCount = 0;
-        for(const item in cartItems){
-            totalCount += cartItems[item]
+    // function for completely remove product from cart
+    const deleteFromCart = (itemId) => {
+
+        let cartData = structuredClone(cartItems);
+
+        if(cartData[itemId]){
+            delete cartData[itemId];
         }
 
-        return totalCount;
+        setCartItems(cartData);
+
+        toast.success("Removed from cart successfully");
+    }
+
+    // function to count cart items
+    const getCartCount = () => {
+        return Object.keys(cartItems).length;
     }
 
     // function to count total amount of cart items
@@ -172,6 +202,7 @@ export const AppContextProvider = ({children})=>{
         addToCart,
         updateCartItem,
         removeFromCart,
+        deleteFromCart,
         cartItems,
         searchQuery,
         setSearchQuery,

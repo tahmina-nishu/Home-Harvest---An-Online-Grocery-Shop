@@ -12,6 +12,8 @@ const ProductDetails = () => {
     const [thumbnail, setThumbnail] = useState(null);
 
     const product = products.find((item)=> item._id === _id);
+    console.log(product);
+console.log(product.stock);
 
     // similar type er (same category er) item gulo k copy hisebe filter kora hoiche 
     useEffect(() => {
@@ -101,14 +103,38 @@ const ProductDetails = () => {
                         ))}
                     </ul>
 
-                    <div className="flex items-center mt-10 gap-4 text-base">
-                        <button onClick={()=> addToCart(product._id)} className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition" >
-                            Add to Cart
-                        </button>
-                        <button onClick={()=> {addToCart(product._id); navigate("/cart")}} className="w-full py-3.5 cursor-pointer font-medium bg-primary text-white hover:bg-primary-dull transition" >
-                            Buy now
-                        </button>
-                    </div>
+<div className="flex items-center mt-10 gap-4 text-base">
+
+    {product.stock > 0 ? (
+        <>
+            <button
+                onClick={() => addToCart(product._id)}
+                className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800 hover:bg-gray-200 transition"
+            >
+                Add to Cart
+            </button>
+
+            <button
+                onClick={() => {
+                    addToCart(product._id);
+                    navigate("/cart");
+                }}
+                className="w-full py-3.5 cursor-pointer font-medium bg-primary text-white hover:bg-primary-dull transition"
+            >
+                Buy Now
+            </button>
+        </>
+    ) : (
+        <button
+            disabled
+            className="w-full py-3.5 bg-gray-300 text-gray-600 font-medium rounded cursor-not-allowed"
+        >
+            Out of Stock
+        </button>
+    )}
+
+</div>
+
                 </div>
             </div>
 
@@ -125,7 +151,7 @@ const ProductDetails = () => {
                 {/* related product array START  */}
                 <div className="w-full flex justify-center">
                     <div className='grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-6 mt-6 justify-items-center'>
-                        {relatedProducts.filter((product)=>product.inStock).slice(0,3).map((product, index)=>(
+                        {relatedProducts.filter((product) => product.stock > 0).slice(0,3).map((product, index)=>(
                             <ProductCard key={index} product={product}></ProductCard>
                         ))}
                     </div>

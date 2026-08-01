@@ -7,7 +7,10 @@ export const addProduct = async (req, res)=>{
     try {
         let productData = JSON.parse(req.body.productData)
 
-        const images = req.files
+        productData.stock = Number(productData.stock);
+        productData.inStock = productData.stock > 0;
+
+        const images = req.files;
 
         // Check if at least one image is uploaded
         if (!images || images.length === 0) {
@@ -101,17 +104,13 @@ export const productById = async (req, res)=>{
 }
 
 
-// change Product inStock : /api/product/stock
-export const changeStock = async (req, res)=>{
+// Update Product Stock : /api/product/update-stock
+export const updateProductStock = async (req, res) => {
     try {
-        const { id, inStock } = req.body
 
-        // find the product and update 
-        const product = await Product.findByIdAndUpdate(
-            id,
-            { inStock },
-            { new: true }
-        );
+        const { id, stock } = req.body;
+
+        const product = await Product.findById(id);
 
         if (!product) {
             return res.json({
@@ -120,17 +119,22 @@ export const changeStock = async (req, res)=>{
             });
         }
 
-        // send the response      
+        product.stock = Number(stock);
+        product.inStock = Number(stock) > 0;
+
+        await product.save();
+
         return res.json({
-            success: true, 
-            message: "Stock updated"
+            success: true,
+            message: "Stock updated successfully"
         });
 
     } catch (error) {
         console.log(error.message);
+
         return res.json({
-            success: false, 
+            success: false,
             message: error.message
-        })
+        });
     }
-}
+};

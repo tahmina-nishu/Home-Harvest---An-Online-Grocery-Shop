@@ -202,6 +202,30 @@ export const updateOrderStatus = async (req, res) => {
             });
         }
 
+// Deduct stock when order is confirmed
+if (
+    status === "Order Confirmed" &&
+    order.status !== "Order Confirmed"
+) {
+
+    for (const item of order.items) {
+
+        const product = await Product.findById(item.product);
+
+        if (!product) continue;
+
+        product.stock -= item.quantity;
+
+        if (product.stock < 0) {
+            product.stock = 0;
+        }
+
+        product.inStock = product.stock > 0;
+
+        await product.save();
+    }
+}
+
         order.status = status;
 
         // Save delivery date when delivered

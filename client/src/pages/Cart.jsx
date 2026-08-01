@@ -10,6 +10,7 @@ const Cart = () => {
         currency, 
         cartItems, 
         removeFromCart, 
+        deleteFromCart,
         getCartCount, 
         updateCartItem, 
         navigate, 
@@ -24,7 +25,13 @@ const Cart = () => {
     const [showAddress, setShowAddress] = useState(false)
     const [selectedAddress, setSelectedAddress] = useState(null)
     const [paymentOption, setPaymentOption] = useState("COD")
+    const [qty, setQty] = useState({});
 
+useEffect(() => {
+
+    setQty(cartItems);
+
+}, [cartItems]);
 
     // function for get product data and add in cart array
     const getCart = () => {
@@ -112,7 +119,7 @@ const Cart = () => {
         }
     },[user])
     
-    
+
     return products.length > 0 && cartItems ? (
         <div className="mt-20 flex flex-col md:flex-row items-start py-16 max-w-7xl w-full px-6 mx-auto gap-8">
             <div className='flex-1 max-w-4xl'>
@@ -139,7 +146,7 @@ const Cart = () => {
 
                             {/* Remove Button */}
                             <button
-                                onClick={() => removeFromCart(product._id)}
+                                onClick={() => deleteFromCart(product._id)}
                                 className="text-xl text-gray-400 hover:text-primary transition"
                             >
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -204,15 +211,87 @@ const Cart = () => {
                                     -
                                 </button>
 
-                                <span className="px-4 text-primary font-medium">
-                                    {cartItems[product._id]}
-                                </span>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={qty[product._id] || ""}
+                                    onChange={(e)=>{
+
+                                        const value = e.target.value;
+
+
+                                        // backspace allow
+                                        if(value === ""){
+                                            setQty(prev => ({
+                                                ...prev,
+                                                [product._id]: ""
+                                            }));
+                                            return;
+                                        }
+
+
+                                        const quantity = Number(value);
+
+
+                                        if(quantity < 1){
+                                            return;
+                                        }
+
+
+                                        const updated = updateCartItem(
+                                            product._id,
+                                            quantity
+                                        );
+
+
+                                        if(updated){
+
+                                            // only success হলে input change হবে
+                                            setQty(prev => ({
+                                                ...prev,
+                                                [product._id]: quantity
+                                            }));
+
+                                        }
+                                        else{
+
+                                            // stock বেশি হলে আগের quantity থাকবে
+                                            setQty(prev => ({
+                                                ...prev,
+                                                [product._id]: cartItems[product._id]
+                                            }));
+
+                                        }
+
+                                    }}
+
+                                    onBlur={()=>{
+
+                                        const quantity = Number(qty[product._id]);
+
+                                        if(!quantity || quantity < 1){
+
+                                            setQty(prev=>({
+                                                ...prev,
+                                                [product._id]:1
+                                            }));
+
+                                            updateCartItem(
+                                                product._id,
+                                                1
+                                            );
+                                        }
+
+                                    }}
+
+                                    className="w-14 h-7 text-center border rounded outline-none bg-white text-primary font-medium"
+                                />
 
                                 <button
                                     onClick={() =>
                                         updateCartItem(
                                             product._id,
-                                            cartItems[product._id] + 1
+                                            Number(cartItems[product._id]) + 1
                                         )
                                     }
                                     className="px-3 py-1 bg-primary/5 hover:bg-primary/10 text-primary transition"

@@ -30,9 +30,6 @@ const AllProducts = () => {
             )
         }
 
-        // Only in stock products
-        tempProducts = tempProducts.filter(product => product.inStock)
-
         setFilteredProducts(tempProducts)
 
     }, [products, searchQuery, selectedCategory])

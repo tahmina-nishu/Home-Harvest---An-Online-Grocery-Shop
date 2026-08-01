@@ -6,34 +6,45 @@ const ProductList = () => {
     
     const {products, currency, axios, fetchProducts} = useAppContext();
 
-    const toggleStock = async (id, inStock) => {
-        try {
-            const {data} = await axios.post('/api/product/stock', {id, inStock});
+    const updateStock = async (id, currentStock) => {
 
-            if(data.success){
+        const newStock = prompt("Enter new stock quantity:", currentStock);
+
+        if (newStock === null) return;
+
+        try {
+
+            const { data } = await axios.post("/api/product/update-stock", {
+                id,
+                stock: Number(newStock)
+            });
+
+            if (data.success) {
+                toast.success(data.message);
                 fetchProducts();
-                toast.success(data.message)
-            }else{
+            } else {
                 toast.error(data.message);
             }
 
         } catch (error) {
             toast.error(error.message);
-        }      
-    }
+        }
+    };
 
     return (
         <div className="no-scrollbar flex-1 h-[95vh] overflow-y-scroll flex flex-col justify-between pb-14">
             <div className="w-full md:p-10 p-4">
                 <h2 className="pb-4 text-lg font-medium">All Products</h2>
-                <div className="flex flex-col items-center max-w-4xl w-full overflow-hidden rounded-md bg-white border border-gray-500/20">
-                    <table className="md:table-auto table-fixed w-full overflow-hidden">
+                <div className="max-w-4xl w-full overflow-x-auto rounded-md bg-white border border-gray-500/20">
+                    <table className="min-w-225 w-full">
                         <thead className="text-gray-900 text-sm text-left">
                             <tr>
-                                <th className="px-4 py-3 font-semibold truncate">Product</th>
-                                <th className="px-4 py-3 font-semibold truncate">Category</th>
-                                <th className="px-4 py-3 font-semibold truncate hidden md:block">Selling Price</th>
-                                <th className="px-4 py-3 font-semibold truncate">In Stock</th>
+                                <th className="px-4 py-3 font-semibold">Product</th>
+                                <th className="px-4 py-3 font-semibold">Category</th>
+                                <th className="px-4 py-3 font-semibold">Selling Price</th>
+                                <th className="px-4 py-3 font-semibold">Quantity</th>
+                                <th className="px-4 py-3 font-semibold">Status</th>
+                                <th className="px-4 py-3 font-semibold">Action</th>
                             </tr>
                         </thead>
                         <tbody className="text-sm text-gray-500">
@@ -46,18 +57,35 @@ const ProductList = () => {
                                         <span className="truncate max-sm:hidden w-full">{product.name}</span>
                                     </td>
                                     <td className="px-4 py-3">{product.category}</td>
-                                    <td className="px-4 py-3 max-sm:hidden">{currency}{product.offerPrice}</td>
+                                    <td className="px-4 py-3">{currency}{product.offerPrice}</td>
+                                    <td className="px-4 py-3 font-medium">
+                                        {product.stock}
+                                    </td>
+
                                     <td className="px-4 py-3">
-                                        <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
-                                            <input onClick={()=> toggleStock(product._id, !product.inStock)}  checked={product.inStock} type="checkbox" className="sr-only peer"/>
+                                        {product.stock === 0 ? (
+                                            <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-semibold">
+                                                Out of Stock
+                                            </span>
+                                        ) : product.stock <= 5 ? (
+                                            <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-semibold">
+                                                Low Stock
+                                            </span>
+                                        ) : (
+                                            <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">
+                                                In Stock
+                                            </span>
+                                        )}
+                                    </td>                                    
+                                    <td className="px-4 py-3">
 
-                                            {/* instock property add kore jegula stock e ache egula auto on thakbe. er jonno uporer input ta eta diye replace korbo...
+                                        <button
+                                            onClick={() => updateStock(product._id, product.stock)}
+                                            className="px-3 py-1 bg-primary text-white rounded hover:opacity-90"
+                                        >
+                                            Edit
+                                        </button>
 
-                                            <input type="checkbox" className="sr-only peer" defaultChecked={product.inStock} /> */}
-
-                                            <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-primary transition-colors duration-200"></div>
-                                            <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
-                                        </label>
                                     </td>
                                 </tr>
                             ))}
