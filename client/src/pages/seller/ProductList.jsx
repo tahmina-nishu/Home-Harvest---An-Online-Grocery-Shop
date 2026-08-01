@@ -6,29 +6,165 @@ const ProductList = () => {
     
     const {products, currency, axios, fetchProducts} = useAppContext();
 
-    const updateStock = async (id, currentStock) => {
+    // Update stock 
+    const updateStock = (id, currentStock) => {
 
-        const newStock = prompt("Enter new stock quantity:", currentStock);
+        toast((t) => (
+            <div className="flex flex-col gap-3">
 
-        if (newStock === null) return;
+                <p className="font-medium">
+                    Update stock quantity
+                </p>
 
-        try {
 
-            const { data } = await axios.post("/api/product/update-stock", {
-                id,
-                stock: Number(newStock)
-            });
+                <input
+                    id="stockInput"
+                    type="number"
+                    defaultValue={currentStock}
+                    className="border rounded px-2 py-1 w-32 outline-none"
+                />
 
-            if (data.success) {
-                toast.success(data.message);
-                fetchProducts();
-            } else {
-                toast.error(data.message);
-            }
 
-        } catch (error) {
-            toast.error(error.message);
-        }
+                <div className="flex gap-2 justify-end">
+
+                    <button
+                        onClick={() => toast.dismiss(t.id)}
+                        className="px-3 py-1 bg-gray-200 rounded"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        onClick={async () => {
+
+                            const newStock =
+                                document.getElementById("stockInput").value;
+
+
+                            if(newStock === ""){
+                                toast.error("Enter stock quantity");
+                                return;
+                            }
+
+
+                            try {
+
+                                const {data} = await axios.post(
+                                    "/api/product/update-stock",
+                                    {
+                                        id,
+                                        stock:Number(newStock)
+                                    }
+                                );
+
+
+                                toast.dismiss(t.id);
+
+
+                                if(data.success){
+
+                                    toast.success(data.message);
+
+                                    fetchProducts();
+
+                                }else{
+
+                                    toast.error(data.message);
+
+                                }
+
+
+                            } catch(error){
+
+                                toast.dismiss(t.id);
+
+                                toast.error(error.message);
+
+                            }
+
+
+                        }}
+                        className="px-3 py-1 bg-primary text-white rounded"
+                    >
+                        Update
+                    </button>
+
+                </div>
+
+            </div>
+
+        ),{
+            duration: Infinity
+        });
+
+    };
+
+    // Delete product
+    const deleteProduct = async (id) => {
+
+        const confirm = toast((t) => (
+            <div className="flex flex-col gap-3">
+                <p className="font-medium">
+                    Are you sure you want to delete this product?
+                </p>
+
+                <div className="flex gap-2 justify-end">
+
+                    <button
+                        onClick={() => {
+                            toast.dismiss(t.id);
+                        }}
+                        className="px-3 py-1 bg-gray-200 rounded"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        onClick={async () => {
+
+                            toast.dismiss(t.id);
+
+
+                            try {
+
+                                const {data} = await axios.delete(
+                                    `/api/product/delete/${id}`
+                                );
+
+
+                                if(data.success){
+
+                                    toast.success(data.message);
+
+                                    fetchProducts();
+
+                                }else{
+
+                                    toast.error(data.message);
+
+                                }
+
+
+                            } catch(error){
+
+                                toast.error(error.message);
+
+                            }
+
+                        }}
+                        className="px-3 py-1 bg-red-500 text-white rounded"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+            </div>
+        ),{
+            duration: Infinity,
+        });
+
     };
 
     return (
@@ -77,13 +213,21 @@ const ProductList = () => {
                                             </span>
                                         )}
                                     </td>                                    
-                                    <td className="px-4 py-3">
+                                    <td className="px-4 py-3 flex gap-2">
 
                                         <button
                                             onClick={() => updateStock(product._id, product.stock)}
                                             className="px-3 py-1 bg-primary text-white rounded hover:opacity-90"
                                         >
                                             Edit
+                                        </button>
+
+
+                                        <button
+                                            onClick={() => deleteProduct(product._id)}
+                                            className="px-3 py-1 bg-red-700 text-white rounded hover:bg-red-600"
+                                        >
+                                            Delete
                                         </button>
 
                                     </td>
