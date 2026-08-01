@@ -167,6 +167,122 @@ const ProductList = () => {
 
     };
 
+    // Flash Sale offer
+    const addFlashSale = (id)=>{
+
+        toast((t)=>(
+            <div className="flex flex-col gap-3">
+
+                <p className="font-medium">
+                    Add Flash Sale Offer
+                </p>
+
+
+                <input
+                    id="discountInput"
+                    type="number"
+                    placeholder="Discount %"
+                    className="border rounded px-2 py-1 outline-none"
+                />
+
+
+                <input
+                    id="dateInput"
+                    type="date"
+                    className="border rounded px-2 py-1 outline-none"
+                />
+
+
+                <div className="flex gap-2 justify-end">
+
+                    <button
+                        onClick={()=>toast.dismiss(t.id)}
+                        className="px-3 py-1 bg-gray-200 rounded"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        onClick={async()=>{
+
+
+                            const discount =
+                            document.getElementById("discountInput").value;
+
+
+                            const date =
+                            document.getElementById("dateInput").value;
+
+
+
+                            if(!discount || !date){
+
+                                toast.error("Fill all fields");
+                                return;
+
+                            }
+
+
+
+                            try{
+
+
+                                const {data}=await axios.post(
+                                    "/api/product/flash-sale",
+                                    {
+                                        id,
+                                        discountPercent:Number(discount),
+                                        expiresAt:date
+                                    }
+                                );
+
+
+                                toast.dismiss(t.id);
+
+
+                                if(data.success){
+
+                                    toast.success(
+                                        "Flash Sale added successfully"
+                                    );
+
+                                    fetchProducts();
+
+                                }else{
+
+                                    toast.error(data.message);
+
+                                }
+
+
+                            }catch(error){
+
+                                toast.dismiss(t.id);
+
+                                toast.error(error.message);
+
+                            }
+
+
+                        }}
+                        className="px-3 py-1 bg-red-600 text-white rounded"
+                    >
+                        Add
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        ),{
+            duration:Infinity
+        });
+
+    }    
+
     return (
         <div className="no-scrollbar flex-1 h-[95vh] overflow-y-scroll flex flex-col justify-between pb-14">
             <div className="w-full md:p-10 p-4">
@@ -229,6 +345,16 @@ const ProductList = () => {
                                         >
                                             Delete
                                         </button>
+
+                                        <button
+
+                                        onClick={()=>addFlashSale(product._id)}
+
+                                        className="px-3 py-1 bg-red-600 text-white rounded">
+
+                                        Flash Sale
+
+                                        </button>                                        
 
                                     </td>
                                 </tr>

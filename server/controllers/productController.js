@@ -212,3 +212,77 @@ export const deleteProduct = async (req, res) => {
 
     }
 };
+
+
+// Flash sale offer 
+export const addFlashSale = async(req,res)=>{
+
+try{
+
+const {
+id,
+discountPercent,
+expiresAt
+}=req.body;
+
+
+const product = await Product.findById(id);
+
+
+if(!product){
+
+return res.json({
+success:false,
+message:"Product not found"
+})
+
+}
+
+
+// calculate discount price
+
+const flashPrice =
+product.price -
+(product.price * discountPercent / 100);
+
+
+
+product.flashSale = {
+
+isActive:true,
+
+discountPercent,
+
+flashPrice,
+
+expiresAt
+
+};
+
+
+
+await product.save();
+
+
+
+return res.json({
+
+success:true,
+
+message:"Flash sale added"
+
+})
+
+
+}catch(error){
+
+return res.json({
+
+success:false,
+message:error.message
+
+})
+
+}
+
+}

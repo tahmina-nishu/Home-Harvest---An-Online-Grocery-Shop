@@ -27,11 +27,11 @@ const Cart = () => {
     const [paymentOption, setPaymentOption] = useState("COD")
     const [qty, setQty] = useState({});
 
-useEffect(() => {
+    useEffect(() => {
 
-    setQty(cartItems);
+        setQty(cartItems);
 
-}, [cartItems]);
+    }, [cartItems]);
 
     // function for get product data and add in cart array
     const getCart = () => {

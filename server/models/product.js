@@ -42,10 +42,32 @@ const productSchema = new mongoose.Schema(
             required: true,
             default: 0,
         },
+
+        flashSale:{
+            isActive: {
+                type: Boolean,
+                default: false
+            },
+
+            discountPercent: {
+                type: Number,
+                default: 0
+            },
+
+            flashPrice: {
+                type: Number,
+                default: 0
+            },
+
+            expiresAt: {
+                type: Date,
+                default: null
+            }
+        }            
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 const Product =

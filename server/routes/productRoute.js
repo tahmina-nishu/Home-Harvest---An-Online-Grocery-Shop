@@ -6,7 +6,8 @@ import {
     updateProductStock, 
     productById, 
     productList,
-    deleteProduct
+    deleteProduct,
+    addFlashSale
 } from '../controllers/productController.js';
 
 const productRouter = express.Router();
@@ -16,5 +17,6 @@ productRouter.get('/list', productList)
 productRouter.get('/:id', productById)  
 productRouter.post("/update-stock", authSeller, updateProductStock);
 productRouter.delete('/delete/:id', authSeller, deleteProduct);
+productRouter.post("/flash-sale",authSeller,addFlashSale);
 
 export default productRouter;

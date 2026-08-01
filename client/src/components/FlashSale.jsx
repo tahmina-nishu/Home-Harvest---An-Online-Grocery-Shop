@@ -12,56 +12,88 @@ const FlashSale = () => {
         navigate,
     } = useAppContext();
 
-    const [timeLeft, setTimeLeft] = useState({
-        days: 7,
-        hours: 8,
-        minutes: 5,
-        seconds: 11,
+    // Flash Sale Date set
+    const [timeLeft,setTimeLeft]=useState({
+        days:0,
+        hours:0,
+        minutes:0,
+        seconds:0
     });
 
-    useEffect(() => {
+    const [expired,setExpired] = useState(false);
 
-        const timer = setInterval(() => {
+    // jei product gulo te Flash Sale offer diche 
+    const dealProducts = products.filter(
+    (item)=>
+    item.flashSale?.isActive &&
+    new Date(item.flashSale.expiresAt) > new Date()
+    );
 
-            setTimeLeft((prev) => {
+    useEffect(()=>{
 
-                let { days, hours, minutes, seconds } = prev;
+        if(dealProducts.length === 0) return;
 
-                if (seconds > 0) {
-                    seconds--;
-                }
-                else if (minutes > 0) {
-                    minutes--;
-                    seconds = 59;
-                }
-                else if (hours > 0) {
-                    hours--;
-                    minutes = 59;
-                    seconds = 59;
-                }
-                else if (days > 0) {
-                    days--;
-                    hours = 23;
-                    minutes = 59;
-                    seconds = 59;
-                }
 
-                return { days, hours, minutes, seconds };
+        const timer=setInterval(()=>{
+
+            const expiry =
+            new Date(dealProducts[0].flashSale.expiresAt);
+
+
+            const now=new Date();
+
+            const diff=expiry-now;
+
+
+            if(diff <= 0){
+                setTimeLeft({
+                    days:0,
+                    hours:0,
+                    minutes:0,
+                    seconds:0
+                });
+
+                setExpired(true);
+                clearInterval(timer);
+                return;
+            }
+
+
+            setTimeLeft({
+
+                days:Math.floor(diff/(1000*60*60*24)),
+
+                hours:Math.floor(
+                    (diff/(1000*60*60))%24
+                ),
+
+                minutes:Math.floor(
+                    (diff/(1000*60))%60
+                ),
+
+                seconds:Math.floor(
+                    (diff/1000)%60
+                )
 
             });
 
-        }, 1000);
 
-        return () => clearInterval(timer);
+        },1000);
 
-    }, []);
 
-    const dealProducts = products
-        .filter((item) => item.inStock)
-        .slice(0, 2);
+        return ()=>clearInterval(timer);
+
+
+    },[products]);
+
 
     const formatTime = (value) =>
         value.toString().padStart(2, "0");
+
+    //kono offer na thakle ei section show korbe na
+    if(dealProducts.length === 0 || expired){
+        return null;
+    }
 
     return (
 
@@ -139,14 +171,11 @@ const FlashSale = () => {
                         >
 
                             {/* OFFER BADGE */}
-                            <div className="inline-flex bg-red-500 text-white text-xs font-medium px-3 py-1 rounded-full">
-                                {Math.round(
-                                    ((product.price - product.offerPrice) /
-                                        product.price) *
-                                    100
-                                )}
-                                % OFF
-                            </div>
+                            {product.flashSale?.isActive && (
+                                <div className="inline-flex bg-red-500 text-white text-xs font-medium px-3 py-1 rounded-full">
+                                    {product.flashSale.discountPercent}% OFF
+                                </div>
+                            )}
 
                             {/* IMAGE */}
                             <div className="flex justify-center mt-4">
@@ -187,7 +216,7 @@ const FlashSale = () => {
 
                                 <span className="text-primary font-bold text-xl">
                                     {currency}
-                                    {product.offerPrice}
+                                    {product.flashSale?.flashPrice}
                                 </span>
 
                                 <span className="ml-2 text-gray-400 line-through text-sm">
